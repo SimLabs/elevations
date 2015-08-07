@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4835D4C9-5D39-484A-8C09-1ED22D4D6974}</ProjectGuid>
+    <RootNamespace>ork</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)d</TargetName>
+    <OutDir>$(SolutionDir)</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(SolutionDir)</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>USE_SHARED_PTR;_CRT_SECURE_NO_WARNINGS;ORK_API=__declspec(dllexport);TIXML_USE_STL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(SolutionDir)\include\lib\glew32.lib;$(SolutionDir)\include\lib\pthreadVCE2.lib;OpenGL32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>USE_SHARED_PTR;_CRT_SECURE_NO_WARNINGS;ORK_API=__declspec(dllexport);TIXML_USE_STL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\include\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>$(SolutionDir)\include\lib\glew32.lib;$(SolutionDir)\include\lib\pthreadVCE2.lib;OpenGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\FileLogger.cpp" />
+    <ClCompile Include="src\core\GPUTimer.cpp" />
+    <ClCompile Include="src\core\Logger.cpp" />
+    <ClCompile Include="src\core\Object.cpp" />
+    <ClCompile Include="src\core\Timer.cpp" />
+    <ClCompile Include="src\math\half.cpp" />
+    <ClCompile Include="src\render\AttributeBuffer.cpp" />
+    <ClCompile Include="src\render\Buffer.cpp" />
+    <ClCompile Include="src\render\CPUBuffer.cpp" />
+    <ClCompile Include="src\render\FrameBuffer.cpp" />
+    <ClCompile Include="src\render\GPUBuffer.cpp" />
+    <ClCompile Include="src\render\MeshBuffers.cpp" />
+    <ClCompile Include="src\render\Module.cpp" />
+    <ClCompile Include="src\render\Program.cpp" />
+    <ClCompile Include="src\render\Query.cpp" />
+    <ClCompile Include="src\render\RenderBuffer.cpp" />
+    <ClCompile Include="src\render\Sampler.cpp" />
+    <ClCompile Include="src\render\Texture.cpp" />
+    <ClCompile Include="src\render\Texture1D.cpp" />
+    <ClCompile Include="src\render\Texture1DArray.cpp" />
+    <ClCompile Include="src\render\Texture2D.cpp" />
+    <ClCompile Include="src\render\Texture2DArray.cpp" />
+    <ClCompile Include="src\render\Texture2DMultisample.cpp" />
+    <ClCompile Include="src\render\Texture2DMultisampleArray.cpp" />
+    <ClCompile Include="src\render\Texture3D.cpp" />
+    <ClCompile Include="src\render\TextureBuffer.cpp" />
+    <ClCompile Include="src\render\TextureCube.cpp" />
+    <ClCompile Include="src\render\TextureCubeArray.cpp" />
+    <ClCompile Include="src\render\TextureRectangle.cpp" />
+    <ClCompile Include="src\render\TransformFeedback.cpp" />
+    <ClCompile Include="src\render\Types.cpp" />
+    <ClCompile Include="src\render\Uniform.cpp" />
+    <ClCompile Include="src\render\Value.cpp" />
+    <ClCompile Include="src\resource\CompiledResourceLoader.cpp" />
+    <ClCompile Include="src\resource\Resource.cpp" />
+    <ClCompile Include="src\resource\ResourceCompiler.cpp" />
+    <ClCompile Include="src\resource\ResourceDescriptor.cpp" />
+    <ClCompile Include="src\resource\ResourceFactory.cpp" />
+    <ClCompile Include="src\resource\ResourceLoader.cpp" />
+    <ClCompile Include="src\resource\ResourceManager.cpp" />
+    <ClCompile Include="src\resource\XMLResourceLoader.cpp" />
+    <ClCompile Include="src\scenegraph\AbstractTask.cpp" />
+    <ClCompile Include="src\scenegraph\CallMethodTask.cpp" />
+    <ClCompile Include="src\scenegraph\DrawMeshTask.cpp" />
+    <ClCompile Include="src\scenegraph\LoopTask.cpp" />
+    <ClCompile Include="src\scenegraph\Method.cpp" />
+    <ClCompile Include="src\scenegraph\SceneManager.cpp" />
+    <ClCompile Include="src\scenegraph\SceneNode.cpp" />
+    <ClCompile Include="src\scenegraph\SequenceTask.cpp" />
+    <ClCompile Include="src\scenegraph\SetProgramTask.cpp" />
+    <ClCompile Include="src\scenegraph\SetStateTask.cpp" />
+    <ClCompile Include="src\scenegraph\SetTargetTask.cpp" />
+    <ClCompile Include="src\scenegraph\SetTransformsTask.cpp" />
+    <ClCompile Include="src\scenegraph\ShowInfoTask.cpp" />
+    <ClCompile Include="src\scenegraph\ShowLogTask.cpp" />
+    <ClCompile Include="src\stbi\stb_image.cpp" />
+    <ClCompile Include="src\taskgraph\MultithreadScheduler.cpp" />
+    <ClCompile Include="src\taskgraph\Scheduler.cpp" />
+    <ClCompile Include="src\taskgraph\Task.cpp" />
+    <ClCompile Include="src\taskgraph\TaskFactory.cpp" />
+    <ClCompile Include="src\taskgraph\TaskGraph.cpp" />
+    <ClCompile Include="src\tinyxml\tinyxml.cpp" />
+    <ClCompile Include="src\tinyxml\tinyxmlerror.cpp" />
+    <ClCompile Include="src\tinyxml\tinyxmlparser.cpp" />
+    <ClCompile Include="src\ui\EventHandler.cpp" />
+    <ClCompile Include="src\ui\Window.cpp" />
+    <ClCompile Include="src\util\Font.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
