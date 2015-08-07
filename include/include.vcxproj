@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E28C980E-6264-4742-A79E-4E7B537BA7E3}</ProjectGuid>
+    <RootNamespace>include</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)</OutDir>
+    <TargetName>$(ProjectName)d</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>USE_SHARED_PTR;_CRT_SECURE_NO_WARNINGS;PROLAND_API=;ORK_API=;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>USE_SHARED_PTR;_CRT_SECURE_NO_WARNINGS;PROLAND_API=;ORK_API=;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="include\AntTweakBar.h" />
+    <ClInclude Include="include\GL\glew.h" />
+    <ClInclude Include="include\GL\glut.h" />
+    <ClInclude Include="include\ork\core\Atomic.h" />
+    <ClInclude Include="include\ork\core\Factory.h" />
+    <ClInclude Include="include\ork\core\FileLogger.h" />
+    <ClInclude Include="include\ork\core\GPUTimer.h" />
+    <ClInclude Include="include\ork\core\Iterator.h" />
+    <ClInclude Include="include\ork\core\Logger.h" />
+    <ClInclude Include="include\ork\core\Object.h" />
+    <ClInclude Include="include\ork\core\Timer.h" />
+    <ClInclude Include="include\ork\math\box2.h" />
+    <ClInclude Include="include\ork\math\box3.h" />
+    <ClInclude Include="include\ork\math\half.h" />
+    <ClInclude Include="include\ork\math\mat2.h" />
+    <ClInclude Include="include\ork\math\mat3.h" />
+    <ClInclude Include="include\ork\math\mat4.h" />
+    <ClInclude Include="include\ork\math\quat.h" />
+    <ClInclude Include="include\ork\math\vec2.h" />
+    <ClInclude Include="include\ork\math\vec3.h" />
+    <ClInclude Include="include\ork\math\vec4.h" />
+    <ClInclude Include="include\ork\render\AttributeBuffer.h" />
+    <ClInclude Include="include\ork\render\Buffer.h" />
+    <ClInclude Include="include\ork\render\CPUBuffer.h" />
+    <ClInclude Include="include\ork\render\FrameBuffer.h" />
+    <ClInclude Include="include\ork\render\GPUBuffer.h" />
+    <ClInclude Include="include\ork\render\Mesh.h" />
+    <ClInclude Include="include\ork\render\MeshBuffers.h" />
+    <ClInclude Include="include\ork\render\Module.h" />
+    <ClInclude Include="include\ork\render\Program.h" />
+    <ClInclude Include="include\ork\render\Query.h" />
+    <ClInclude Include="include\ork\render\RenderBuffer.h" />
+    <ClInclude Include="include\ork\render\Sampler.h" />
+    <ClInclude Include="include\ork\render\Texture.h" />
+    <ClInclude Include="include\ork\render\Texture1D.h" />
+    <ClInclude Include="include\ork\render\Texture1DArray.h" />
+    <ClInclude Include="include\ork\render\Texture2D.h" />
+    <ClInclude Include="include\ork\render\Texture2DArray.h" />
+    <ClInclude Include="include\ork\render\Texture2DMultisample.h" />
+    <ClInclude Include="include\ork\render\Texture2DMultisampleArray.h" />
+    <ClInclude Include="include\ork\render\Texture3D.h" />
+    <ClInclude Include="include\ork\render\TextureBuffer.h" />
+    <ClInclude Include="include\ork\render\TextureCube.h" />
+    <ClInclude Include="include\ork\render\TextureCubeArray.h" />
+    <ClInclude Include="include\ork\render\TextureRectangle.h" />
+    <ClInclude Include="include\ork\render\TransformFeedback.h" />
+    <ClInclude Include="include\ork\render\Types.h" />
+    <ClInclude Include="include\ork\render\Uniform.h" />
+    <ClInclude Include="include\ork\render\Value.h" />
+    <ClInclude Include="include\ork\resource\CompiledResourceLoader.h" />
+    <ClInclude Include="include\ork\resource\Resource.h" />
+    <ClInclude Include="include\ork\resource\ResourceCompiler.h" />
+    <ClInclude Include="include\ork\resource\ResourceDescriptor.h" />
+    <ClInclude Include="include\ork\resource\ResourceFactory.h" />
+    <ClInclude Include="include\ork\resource\ResourceLoader.h" />
+    <ClInclude Include="include\ork\resource\ResourceManager.h" />
+    <ClInclude Include="include\ork\resource\ResourceTemplate.h" />
+    <ClInclude Include="include\ork\resource\XMLResourceLoader.h" />
+    <ClInclude Include="include\ork\scenegraph\AbstractTask.h" />
+    <ClInclude Include="include\ork\scenegraph\CallMethodTask.h" />
+    <ClInclude Include="include\ork\scenegraph\DrawMeshTask.h" />
+    <ClInclude Include="include\ork\scenegraph\LoopTask.h" />
+    <ClInclude Include="include\ork\scenegraph\Method.h" />
+    <ClInclude Include="include\ork\scenegraph\SceneManager.h" />
+    <ClInclude Include="include\ork\scenegraph\SceneNode.h" />
+    <ClInclude Include="include\ork\scenegraph\SequenceTask.h" />
+    <ClInclude Include="include\ork\scenegraph\SetProgramTask.h" />
+    <ClInclude Include="include\ork\scenegraph\SetStateTask.h" />
+    <ClInclude Include="include\ork\scenegraph\SetTargetTask.h" />
+    <ClInclude Include="include\ork\scenegraph\SetTransformsTask.h" />
+    <ClInclude Include="include\ork\scenegraph\ShowInfoTask.h" />
+    <ClInclude Include="include\ork\scenegraph\ShowLogTask.h" />
+    <ClInclude Include="include\ork\taskgraph\MultithreadScheduler.h" />
+    <ClInclude Include="include\ork\taskgraph\Scheduler.h" />
+    <ClInclude Include="include\ork\taskgraph\Task.h" />
+    <ClInclude Include="include\ork\taskgraph\TaskFactory.h" />
+    <ClInclude Include="include\ork\taskgraph\TaskGraph.h" />
+    <ClInclude Include="include\ork\ui\EventHandler.h" />
+    <ClInclude Include="include\ork\ui\GlutWindow.h" />
+    <ClInclude Include="include\ork\ui\Window.h" />
+    <ClInclude Include="include\ork\util\Font.h" />
+    <ClInclude Include="include\pmath.h" />
+    <ClInclude Include="include\proland\dem\CPUElevationProducer.h" />
+    <ClInclude Include="include\proland\dem\ElevationCurveData.h" />
+    <ClInclude Include="include\proland\dem\ElevationGraphLayer.h" />
+    <ClInclude Include="include\proland\dem\ElevationMargin.h" />
+    <ClInclude Include="include\proland\dem\ElevationProducer.h" />
+    <ClInclude Include="include\proland\dem\NormalProducer.h" />
+    <ClInclude Include="include\proland\dem\ResidualProducer.h" />
+    <ClInclude Include="include\proland\dem\RoadElevationLayer.h" />
+    <ClInclude Include="include\proland\dem\WaterElevationLayer.h" />
+    <ClInclude Include="include\proland\EditPlugin.h" />
+    <ClInclude Include="include\proland\edit\EditElevationProducer.h" />
+    <ClInclude Include="include\proland\edit\EditGraphOrthoLayer.h" />
+    <ClInclude Include="include\proland\edit\EditHydroGraphOrthoLayer.h" />
+    <ClInclude Include="include\proland\edit\EditorHandler.h" />
+    <ClInclude Include="include\proland\edit\EditOrthoCPUProducer.h" />
+    <ClInclude Include="include\proland\edit\EditOrthoProducer.h" />
+    <ClInclude Include="include\proland\edit\EditResidualProducer.h" />
+    <ClInclude Include="include\proland\ForestPlugin.h" />
+    <ClInclude Include="include\proland\GraphPlugin.h" />
+    <ClInclude Include="include\proland\graph\Area.h" />
+    <ClInclude Include="include\proland\graph\BasicCurvePart.h" />
+    <ClInclude Include="include\proland\graph\BasicGraph.h" />
+    <ClInclude Include="include\proland\graph\ComposedMargin.h" />
+    <ClInclude Include="include\proland\graph\Curve.h" />
+    <ClInclude Include="include\proland\graph\CurvePart.h" />
+    <ClInclude Include="include\proland\graph\FileReader.h" />
+    <ClInclude Include="include\proland\graph\FileWriter.h" />
+    <ClInclude Include="include\proland\graph\Graph.h" />
+    <ClInclude Include="include\proland\graph\GraphListener.h" />
+    <ClInclude Include="include\proland\graph\LazyArea.h" />
+    <ClInclude Include="include\proland\graph\LazyCurve.h" />
+    <ClInclude Include="include\proland\graph\LazyGraph.h" />
+    <ClInclude Include="include\proland\graph\LazyNode.h" />
+    <ClInclude Include="include\proland\graph\LineCurvePart.h" />
+    <ClInclude Include="include\proland\graph\Margin.h" />
+    <ClInclude Include="include\proland\graph\Node.h" />
+    <ClInclude Include="include\proland\graph\producer\CurveData.h" />
+    <ClInclude Include="include\proland\graph\producer\CurveDataFactory.h" />
+    <ClInclude Include="include\proland\graph\producer\GetCurveDatasTask.h" />
+    <ClInclude Include="include\proland\graph\producer\GraphLayer.h" />
+    <ClInclude Include="include\proland\graph\producer\GraphProducer.h" />
+    <ClInclude Include="include\proland\graph\producer\Tesselator.h" />
+    <ClInclude Include="include\proland\math\color.h" />
+    <ClInclude Include="include\proland\math\geometry.h" />
+    <ClInclude Include="include\proland\math\noise.h" />
+    <ClInclude Include="include\proland\math\seg2.h" />
+    <ClInclude Include="include\proland\OceanPlugin.h" />
+    <ClInclude Include="include\proland\ocean\DrawOceanFFTTask.h" />
+    <ClInclude Include="include\proland\ocean\DrawOceanTask.h" />
+    <ClInclude Include="include\proland\ortho\EmptyOrthoLayer.h" />
+    <ClInclude Include="include\proland\ortho\FieldsOrthoLayer.h" />
+    <ClInclude Include="include\proland\ortho\ForestOrthoLayer.h" />
+    <ClInclude Include="include\proland\ortho\LineOrthoLayer.h" />
+    <ClInclude Include="include\proland\ortho\MaskOrthoLayer.h" />
+    <ClInclude Include="include\proland\ortho\OrthoCPUProducer.h" />
+    <ClInclude Include="include\proland\ortho\OrthoGPUProducer.h" />
+    <ClInclude Include="include\proland\ortho\OrthoMargin.h" />
+    <ClInclude Include="include\proland\ortho\OrthoProducer.h" />
+    <ClInclude Include="include\proland\ortho\RoadOrthoLayer.h" />
+    <ClInclude Include="include\proland\ortho\TextureLayer.h" />
+    <ClInclude Include="include\proland\ortho\WaterOrthoLayer.h" />
+    <ClInclude Include="include\proland\particles\LifeCycleParticleLayer.h" />
+    <ClInclude Include="include\proland\particles\ParticleLayer.h" />
+    <ClInclude Include="include\proland\particles\ParticleProducer.h" />
+    <ClInclude Include="include\proland\particles\ParticleStorage.h" />
+    <ClInclude Include="include\proland\particles\RandomParticleLayer.h" />
+    <ClInclude Include="include\proland\particles\screen\ParticleGrid.h" />
+    <ClInclude Include="include\proland\particles\screen\ScreenParticleLayer.h" />
+    <ClInclude Include="include\proland\particles\terrain\FlowTile.h" />
+    <ClInclude Include="include\proland\particles\terrain\TerrainParticleLayer.h" />
+    <ClInclude Include="include\proland\particles\WorldParticleLayer.h" />
+    <ClInclude Include="include\proland\plants\DrawPlantsShadowTask.h" />
+    <ClInclude Include="include\proland\plants\DrawPlantsTask.h" />
+    <ClInclude Include="include\proland\plants\LccProducer.h" />
+    <ClInclude Include="include\proland\plants\Plants.h" />
+    <ClInclude Include="include\proland\plants\PlantsProducer.h" />
+    <ClInclude Include="include\proland\preprocess\atmo\PreprocessAtmo.h" />
+    <ClInclude Include="include\proland\preprocess\terrain\AbstractTileCache.h" />
+    <ClInclude Include="include\proland\preprocess\terrain\ApertureMipmap.h" />
+    <ClInclude Include="include\proland\preprocess\terrain\ColorMipmap.h" />
+    <ClInclude Include="include\proland\preprocess\terrain\HeightMipmap.h" />
+    <ClInclude Include="include\proland\preprocess\terrain\Preprocess.h" />
+    <ClInclude Include="include\proland\preprocess\terrain\Util.h" />
+    <ClInclude Include="include\proland\preprocess\trees\PreprocessTree.h" />
+    <ClInclude Include="include\proland\producer\CPUTileStorage.h" />
+    <ClInclude Include="include\proland\producer\GPUTileStorage.h" />
+    <ClInclude Include="include\proland\producer\ObjectTileStorage.h" />
+    <ClInclude Include="include\proland\producer\TileCache.h" />
+    <ClInclude Include="include\proland\producer\TileLayer.h" />
+    <ClInclude Include="include\proland\producer\TileProducer.h" />
+    <ClInclude Include="include\proland\producer\TileStorage.h" />
+    <ClInclude Include="include\proland\RiverPlugin.h" />
+    <ClInclude Include="include\proland\rivers\AnimatedPerlinWaveTile.h" />
+    <ClInclude Include="include\proland\rivers\DrawRiversTask.h" />
+    <ClInclude Include="include\proland\rivers\graph\HydroCurve.h" />
+    <ClInclude Include="include\proland\rivers\graph\HydroGraph.h" />
+    <ClInclude Include="include\proland\rivers\graph\HydroGraphFactory.h" />
+    <ClInclude Include="include\proland\rivers\graph\LazyHydroCurve.h" />
+    <ClInclude Include="include\proland\rivers\graph\LazyHydroGraph.h" />
+    <ClInclude Include="include\proland\rivers\graph\LazyHydroGraphFactory.h" />
+    <ClInclude Include="include\proland\rivers\HydroFlowProducer.h" />
+    <ClInclude Include="include\proland\rivers\HydroFlowTile.h" />
+    <ClInclude Include="include\proland\rivers\PerlinWaveTile.h" />
+    <ClInclude Include="include\proland\rivers\UpdateRiversTask.h" />
+    <ClInclude Include="include\proland\rivers\WaveTile.h" />
+    <ClInclude Include="include\proland\TerrainPlugin.h" />
+    <ClInclude Include="include\proland\terrain\CylindricalDeformation.h" />
+    <ClInclude Include="include\proland\terrain\Deformation.h" />
+    <ClInclude Include="include\proland\terrain\DrawTerrainTask.h" />
+    <ClInclude Include="include\proland\terrain\ReadbackManager.h" />
+    <ClInclude Include="include\proland\terrain\SphericalDeformation.h" />
+    <ClInclude Include="include\proland\terrain\TerrainNode.h" />
+    <ClInclude Include="include\proland\terrain\TerrainQuad.h" />
+    <ClInclude Include="include\proland\terrain\TileSampler.h" />
+    <ClInclude Include="include\proland\terrain\TileSamplerZ.h" />
+    <ClInclude Include="include\proland\terrain\UpdateTerrainTask.h" />
+    <ClInclude Include="include\proland\terrain\UpdateTileSamplersTask.h" />
+    <ClInclude Include="include\proland\ui\BasicViewHandler.h" />
+    <ClInclude Include="include\proland\ui\EventRecorder.h" />
+    <ClInclude Include="include\proland\ui\MousePositionHandler.h" />
+    <ClInclude Include="include\proland\ui\SceneVisitor.h" />
+    <ClInclude Include="include\proland\ui\twbar\DrawTweakBarTask.h" />
+    <ClInclude Include="include\proland\ui\twbar\TweakBarHandler.h" />
+    <ClInclude Include="include\proland\ui\twbar\TweakBarManager.h" />
+    <ClInclude Include="include\proland\ui\twbar\TweakDemEditor.h" />
+    <ClInclude Include="include\proland\ui\twbar\TweakGraphLayer.h" />
+    <ClInclude Include="include\proland\ui\twbar\TweakHydroGraphLayer.h" />
+    <ClInclude Include="include\proland\ui\twbar\TweakOrthoEditor.h" />
+    <ClInclude Include="include\proland\ui\twbar\TweakResource.h" />
+    <ClInclude Include="include\proland\ui\twbar\TweakRivers.h" />
+    <ClInclude Include="include\proland\ui\twbar\TweakSceneGraph.h" />
+    <ClInclude Include="include\proland\ui\twbar\TweakViewHandler.h" />
+    <ClInclude Include="include\proland\util\CylinderViewController.h" />
+    <ClInclude Include="include\proland\util\mfs.h" />
+    <ClInclude Include="include\proland\util\PlanetViewController.h" />
+    <ClInclude Include="include\proland\util\TerrainViewController.h" />
+    <ClInclude Include="include\pthread.h" />
+    <ClInclude Include="include\sched.h" />
+    <ClInclude Include="include\stbi\stb_image.h" />
+    <ClInclude Include="include\tiff.h" />
+    <ClInclude Include="include\tiffconf.h" />
+    <ClInclude Include="include\tiffio.h" />
+    <ClInclude Include="include\tiffvers.h" />
+    <ClInclude Include="include\tinyxml\tinyxml.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
