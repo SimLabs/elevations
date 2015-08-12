@@ -98,8 +98,7 @@ void gl_widget::mousePressEvent(QMouseEvent* event)
 
 	if (elevation_cursor_ != nullptr && event->buttons() & Qt::RightButton)
 	{
-		auto height = elevation_cursor_->get_current_height();
-		assert(!std::isnan(height));
+		
 	}
 }
 

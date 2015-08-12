@@ -11,6 +11,9 @@ namespace elevations
 		protected:
 			cursor_task(elevation_cursor* elevation_cursor, const char* type, unsigned deadline = 0);
 
+			void add_subtask(ptr<Task> task, bool before = false);
+			ptr<proland::CPUElevationProducer> get_elevation_producer() const;
+
 			elevation_cursor* elevation_cursor_;
 		};
 
@@ -34,14 +37,23 @@ namespace elevations
 			int level_;
 		};
 
-	public:
+		class get_height_task : public cursor_task
+		{
+		public:
+			explicit get_height_task(elevation_cursor* elevation_cursor, unsigned deadline = 0);
+			bool run() override;
+			void setIsDone(bool done, unsigned int t, reason r = DATA_NEEDED) override;
 
-		explicit elevation_cursor(ptr<proland::CPUElevationProducer> elevation_producer, ptr<TaskGraph> task_graph = nullptr);
+		private:
+			int level_, tx_, ty_;
+			double x_, y_;			
+		};
+
+	public:
+		explicit elevation_cursor(ptr<proland::CPUElevationProducer> elevation_producer);
 
 		void set_position(double x, double y);
-
 		double get_current_height() const;
-
 		void leave_request(int level);
 
 	private:
@@ -51,7 +63,9 @@ namespace elevations
 		double x_, y_, current_height_;
 		int level_, tx_, ty_;
 
-		void schedule_task(ptr<Task> task) const;
+		void set_level(int level);
+
+		void reschedule() const;
 	};
 
 	namespace details
