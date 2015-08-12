@@ -33,6 +33,7 @@
 #include "ork/resource/ResourceTemplate.h"
 #include "ork/taskgraph/TaskGraph.h"
 #include "proland/producer/CPUTileStorage.h"
+#include "proland/dem/ResidualProducer.h"
 
 using namespace std;
 using namespace ork;
@@ -57,6 +58,16 @@ void CPUElevationProducer::init(ptr<TileCache> cache, ptr<TileProducer> residual
 
 CPUElevationProducer::~CPUElevationProducer()
 {
+}
+
+int CPUElevationProducer::getMinLevel() const
+{
+    return residualTiles.cast<ResidualProducer>()->getMinLevel();
+}
+
+int CPUElevationProducer::getMaxLevel() const
+{
+    return residualTiles.cast<ResidualProducer>()->getMaxLevel();
 }
 
 void CPUElevationProducer::getReferencedProducers(vector< ptr<TileProducer> > &producers) const

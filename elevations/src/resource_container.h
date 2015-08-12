@@ -1,7 +1,8 @@
 ﻿#pragma once
 
-#include "ork/scenegraph/SceneManager.h"
-#include "proland/ui/BasicViewHandler.h"
+#include <ork/scenegraph/SceneManager.h>
+#include <proland/ui/BasicViewHandler.h>
+#include <proland/dem/CPUElevationProducer.h>
 
 namespace elevations
 {
@@ -13,10 +14,11 @@ namespace elevations
 		void update_resources() const;
 
 		ptr<proland::BasicViewHandler> get_view_handler() const;
+		ptr<proland::CPUElevationProducer> get_elevations_producer() const;
 
-		virtual ptr<SceneManager> getScene() override;
-		virtual ptr<proland::TerrainViewController> getViewController() override;
-		virtual vec3d getWorldCoordinates(int x, int y) override;
+		ptr<SceneManager> getScene() override;
+		ptr<proland::TerrainViewController> getViewController() override;
+		vec3d getWorldCoordinates(int x, int y) override;
 
 		static ptr<resource_container> load_resource_container(const std::string& path, const std::string& filename, const std::string& log_filename = "log.html", size_t cache_size = 8);
 
@@ -30,6 +32,8 @@ namespace elevations
 		ptr<SceneManager> scene_manager_;
 		ptr<proland::BasicViewHandler> view_handler_;
 		ptr<proland::TerrainViewController> view_controller_;
+
+		ptr<proland::CPUElevationProducer> elevation_producer_;
 
 		void swap(ptr<resource_container> o);
 	};

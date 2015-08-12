@@ -31,11 +31,17 @@
   </tileCache>
   <residualProducer name="groundResiduals1" cache="groundResiduals" file="DEM.dat" delta="2"/>
 
+  <tileCache name="groundElevationsCPU" scheduler="defaultScheduler">
+    <cpuFloatTileStorage tileSize="197" channels="1" capacity="1024"/>
+  </tileCache>
+  <cpuElevationProducer name="cpuElevations" cache="groundElevationsCPU" residuals="groundResiduals1"/>
+
   <tileCache name="groundElevations" scheduler="defaultScheduler">
     <gpuTileStorage tileSize="101" nTiles="512" internalformat="RGB32F" format="RGB" type="FLOAT" min="LINEAR" mag="LINEAR"/>
   </tileCache>
-  <elevationProducer name="groundElevations1" cache="groundElevations"
-      residuals="groundResiduals1" flip="true"/>
+  <elevationProducer name="groundElevations1" cache="groundElevations" residuals="groundResiduals1" flip="true">
+    <heightLayer name="heightLayer" cpuElevations="cpuElevations"/>
+  </elevationProducer>
 
   <tileCache name="groundNormals" scheduler="defaultScheduler">
     <gpuTileStorage tileSize="97" nTiles="512" internalformat="RG8" format="RG" type="FLOAT" min="LINEAR" mag="LINEAR"/>
@@ -71,6 +77,7 @@
   <module name="upsampleShader" version="330" source="upsampleShader.glsl"/>
   <module name="normalShader" version="330" source="normalShader.glsl"/>
   <module name="terrainShader" version="330" source="terrainShader.glsl"/>
+  <module name="blendShader" version="330" source="blendShader.glsl"/>
 
   <node name="scene">
     <node flags="camera">
@@ -90,7 +97,6 @@
   </node>
 
   <basicViewHandler name="viewHandler" viewManager="resourceContainer"/>
-
-  <resourceContainer name="resourceContainer" view="viewHandler"/>
+  <resourceContainer name="resourceContainer" view="viewHandler" cpuElevations="cpuElevations"/>
 
 </archive>

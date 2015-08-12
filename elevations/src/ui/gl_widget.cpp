@@ -1,6 +1,6 @@
 #include "gl_widget.h"
 
-#include "ork/render/FrameBuffer.h"
+#include <ork/render/FrameBuffer.h>
 
 using namespace elevations::ui;
 
@@ -10,6 +10,7 @@ gl_widget::gl_widget(QWidget* parent)
 	, time_(std::make_pair(0.0, 0.0))
 	, damaged_(false)
 	, resource_container_(nullptr)
+	, elevation_cursor_(nullptr)
 {
 	connect(&q_timer_, SIGNAL(timeout()), this, SLOT(updateGL()));
 	q_timer_.start();
@@ -21,14 +22,10 @@ gl_widget::~gl_widget()
 	Object::exit();
 }
 
-const elevations::resource_container* gl_widget::get_resource_container() const
-{
-	return resource_container_;
-}
-
-void gl_widget::set_resource_container(const elevations::resource_container* container)
+void gl_widget::init(const elevations::resource_container* container, const elevations::elevation_cursor* cursor)
 {
 	resource_container_ = const_cast<resource_container*>(container);
+	elevation_cursor_ = const_cast<elevation_cursor*>(cursor);
 }
 
 void gl_widget::updateGL()
@@ -97,6 +94,12 @@ void gl_widget::mousePressEvent(QMouseEvent* event)
 			static_cast<EventHandler::modifier>(0),
 			event->x(),
 			event->y());
+	}
+
+	if (elevation_cursor_ != nullptr && event->buttons() & Qt::RightButton)
+	{
+		auto height = elevation_cursor_->get_current_height();
+		assert(!std::isnan(height));
 	}
 }
 

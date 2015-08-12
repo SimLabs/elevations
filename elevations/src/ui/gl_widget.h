@@ -1,15 +1,16 @@
 #pragma once
 
-#include "GL/glew.h"
+#include <GL/glew.h>
 
 #include <QTimer>
 #include <QGLWidget>
 #include <QWheelEvent>
 
-#include "ork/core/Timer.h"
-#include "proland/ui/BasicViewHandler.h"
+#include <ork/core/Timer.h>
+#include <proland/ui/BasicViewHandler.h>
 
 #include "resource_container.h"
+#include <src/elevation_cursor.h>
 
 namespace elevations
 {
@@ -47,11 +48,10 @@ namespace elevations
 			explicit gl_widget(QWidget* parent = nullptr);
 			virtual ~gl_widget();
 
-			const resource_container* get_resource_container() const;
-			void set_resource_container(const resource_container* container);
+			void init(const resource_container* container, const elevation_cursor* cursor = nullptr);
 
 		public Q_SLOTS:
-			virtual void updateGL() override;
+			void updateGL() override;
 
 		protected:
 			void initializeGL() override;
@@ -71,6 +71,7 @@ namespace elevations
 			bool damaged_;
 
 			resource_container* resource_container_;
+			elevation_cursor* elevation_cursor_;
 
 			ptr<proland::BasicViewHandler> get_view_handler() const;
 		};

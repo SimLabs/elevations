@@ -144,9 +144,14 @@ int ResidualProducer::getBorder()
     return 2;
 }
 
-int ResidualProducer::getMinLevel()
+int ResidualProducer::getMinLevel() const
 {
     return minLevel;
+}
+
+int ResidualProducer::getMaxLevel() const
+{
+    return maxLevel;
 }
 
 int ResidualProducer::getDeltaLevel()

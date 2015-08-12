@@ -73,6 +73,14 @@ public:
     virtual int getBorder();
 
     /**
+    * Returns the stored tile level of the first tile of size #tileSize.
+    * See \ref sec-residual.
+    */
+    int getMinLevel() const;
+
+    int getMaxLevel() const;
+
+    /**
      * Adds a ResidualProducer to provide more details in some region.
      * Each producer manages a tile pyramid. A "subproducer" can provide
      * a "subpyramid" of tiles in some region, and so on recursively (see
@@ -108,12 +116,6 @@ protected:
      *      as the XML element in which the %resource descriptor was found).
      */
     void init(ptr<ResourceManager> manager, Resource *r, const std::string &name, ptr<ResourceDescriptor> desc, const TiXmlElement *e = NULL);
-
-    /**
-     * Returns the stored tile level of the first tile of size #tileSize.
-     * See \ref sec-residual.
-     */
-    int getMinLevel();
 
     /**
      * Returns the stored tiles level that must be considered as the root level
