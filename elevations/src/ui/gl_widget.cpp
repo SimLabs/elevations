@@ -1,4 +1,4 @@
-#include "gl_widget.h"
+#include "ui/gl_widget.h"
 
 #include <ork/render/FrameBuffer.h>
 
@@ -22,10 +22,10 @@ gl_widget::~gl_widget()
 	Object::exit();
 }
 
-void gl_widget::init(const elevations::resource_container* container, const elevations::elevation_cursor* cursor)
+void gl_widget::init(const elevations::resource::resource_container* container, const elevations::dem::elevation_cursor* cursor)
 {
-	resource_container_ = const_cast<resource_container*>(container);
-	elevation_cursor_ = const_cast<elevation_cursor*>(cursor);
+	resource_container_ = const_cast<resource::resource_container*>(container);
+	elevation_cursor_ = const_cast<dem::elevation_cursor*>(cursor);
 }
 
 void gl_widget::updateGL()

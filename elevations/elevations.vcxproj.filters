@@ -59,13 +59,13 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\resource_container.cpp">
+    <ClCompile Include="src\resource\resource_container.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\height_layer.cpp">
+    <ClCompile Include="src\producer\height_layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\elevation_cursor.cpp">
+    <ClCompile Include="src\dem\elevation_cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -87,13 +87,13 @@
     <ClInclude Include="GeneratedFiles\ui_main_window.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\resource_container.h">
+    <ClInclude Include="src\resource\resource_container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\height_layer.h">
+    <ClInclude Include="src\producer\height_layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\elevation_cursor.h">
+    <ClInclude Include="src\dem\elevation_cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

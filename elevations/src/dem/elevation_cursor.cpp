@@ -1,6 +1,6 @@
-﻿#include "elevation_cursor.h"
+﻿#include "dem/elevation_cursor.h"
 
-using elevations::elevation_cursor;
+using elevations::dem::elevation_cursor;
 
 elevation_cursor::cursor_task::cursor_task(elevation_cursor* elevation_cursor, const char* type, unsigned deadline)
 	: Task(type, false, deadline)
@@ -152,7 +152,7 @@ void elevation_cursor::reschedule() const
 	elevation_producer_->getCache()->getScheduler()->schedule(task_graph_);
 }
 
-int elevations::details::physical_to_logical(double value, double quad_size, int level)
+int elevations::dem::details::physical_to_logical(double value, double quad_size, int level)
 {
 	assert(quad_size != 0);
 	auto result = value / quad_size + 0.5f;
