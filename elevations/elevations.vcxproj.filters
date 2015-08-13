@@ -96,6 +96,9 @@
     <ClInclude Include="src\dem\elevation_cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\math\lat_lon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="elevations.rc" />

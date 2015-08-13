@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_main_window.h" />
     <ClInclude Include="src\dem\elevation_cursor.h" />
+    <ClInclude Include="src\math\lat_lon.h" />
     <ClInclude Include="src\producer\height_layer.h" />
     <ClInclude Include="src\resource\resource_container.h" />
     <CustomBuild Include="src\ui\main_window.h">
