@@ -42,16 +42,23 @@ uniform struct {
     vec4 camera;
     vec2 blending;
     mat4 localToScreen;
+    float radius;
+    mat3 localToWorld;
+    mat4 screenQuadCorners;
+    mat4 screenQuadVerticals;
+    vec4 screenQuadCornerNorms;
+    mat3 tangentFrameToWorld;
 } deformation;
 
 uniform samplerTile elevationSampler;
 uniform samplerTile fragmentNormalSampler;
+uniform samplerTile orthoSampler;
 
 #ifdef _VERTEX_
 
 layout(location=0) in vec3 vertex;
-out float hIn;
-out vec2 uvIn;
+out vec3 p;
+out vec2 uv;
 
 void main() {
     vec4 zfc = textureTile(elevationSampler, vertex.xy);
@@ -60,63 +67,45 @@ void main() {
     float d = max(max(v.x, v.y), deformation.camera.z);
     float blend = clamp((d - deformation.blending.x) / deformation.blending.y, 0.0, 1.0);
 
+    float R = deformation.radius;
+    mat4 C = deformation.screenQuadCorners;
+    mat4 N = deformation.screenQuadVerticals;
+    vec4 L = deformation.screenQuadCornerNorms;
+    vec3 P = vec3(vertex.xy * deformation.offset.z + deformation.offset.xy, R);
+
+    vec4 uvUV = vec4(vertex.xy, vec2(1.0) - vertex.xy);
+    vec4 alpha = uvUV.zxzx * uvUV.wwyy;
+    vec4 alphaPrime = alpha * L / dot(alpha, L);
+
     float h = zfc.z * (1.0 - blend) + zfc.y * blend;
-    vec3 p = vec3(vertex.xy * deformation.offset.z + deformation.offset.xy, h);
+    float k = min(length(P) / dot(alpha, L) * 1.0000003, 1.0);
+    float hPrime = (h + R * (1.0 - k)) / k;
 
-    gl_Position = deformation.localToScreen * vec4(p, 1.0);
-    hIn = zfc.z;
-    uvIn = vertex.xy;
-}
-
-#endif
-
-#ifdef _GEOMETRY_
-#extension GL_EXT_geometry_shader4 : enable
-
-layout (lines_adjacency) in;
-layout (triangle_strip,max_vertices=4) out;
-
-in float hIn[];
-in vec2 uvIn[];
-out vec2 uv;
-
-void emit(int i) {
-    gl_Position = gl_PositionIn[i];
-    uv = uvIn[i];
-    EmitVertex();
-}
-
-void main() {
-    int a = hIn[3] + hIn[1] >= hIn[0] + hIn[2] ? 0 : 5;
-    emit(a % 4);
-    emit((a + 1) % 4);
-    emit((a + 3) % 4);
-    emit((a + 2) % 4);
-    EndPrimitive();
+    gl_Position = (C + hPrime * N) * alphaPrime;
+    p = (deformation.radius + h) * normalize(deformation.localToWorld * P);
+    uv = vertex.xy;
 }
 
 #endif
 
 #ifdef _FRAGMENT_
 
+in vec3 p;
 in vec2 uv;
 layout(location=0) out vec4 data;
 
 void main() {
-    data = vec4(0.8, 0.8, 0.8, 1.0);
-
-    float h = textureTile(elevationSampler, uv).x;
-    if (h < 0.1) {
-        data = vec4(0.0, 0.0, 0.5, 1.0);
-    }
+    data = textureTile(orthoSampler, uv);
 
     vec3 n = vec3(textureTile(fragmentNormalSampler, uv).xy * 2.0 - 1.0, 0.0);
     n.z = sqrt(max(0.0, 1.0 - dot(n.xy, n.xy)));
 
-    float light = dot(n, normalize(vec3(1.0)));
-    data.rgb *= 0.5 + 0.75 * light;
+    float light = max(-(deformation.tangentFrameToWorld * n).y, 0.0);
+    data.rgb *= light;
 
-    //data.r += mod(dot(floor(deformation.offset.xy / deformation.offset.z + 0.5), vec2(1.0)), 2.0);
+    data.rgb += (1.0 - light) * textureTile(elevationSampler, uv).zzz/9000.0;
+
+    //data.r += mod(dot(floor(deformation.offset.xy / deformation.offset.z + 0.5), vec2(1.0)), 2.0) * 0.5;
 }
 
 #endif

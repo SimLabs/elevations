@@ -29,24 +29,54 @@
   <tileCache name="groundResiduals" scheduler="defaultScheduler">
     <cpuFloatTileStorage tileSize="197" channels="1" capacity="1024"/>
   </tileCache>
-  <residualProducer name="groundResiduals1" cache="groundResiduals" file="DEM.dat" delta="2"/>
+  <residualProducer name="groundResiduals1" cache="groundResiduals" file="DEM1.dat" delta="2"/>
+  <residualProducer name="groundResiduals2" cache="groundResiduals" file="DEM2.dat" delta="2"/>
+  <residualProducer name="groundResiduals3" cache="groundResiduals" file="DEM3.dat" delta="2"/>
+  <residualProducer name="groundResiduals4" cache="groundResiduals" file="DEM4.dat" delta="2"/>
+  <residualProducer name="groundResiduals5" cache="groundResiduals" file="DEM5.dat" delta="2"/>
+  <residualProducer name="groundResiduals6" cache="groundResiduals" file="DEM6.dat" delta="2"/>
 
   <tileCache name="groundElevationsCPU" scheduler="defaultScheduler">
     <cpuFloatTileStorage tileSize="197" channels="1" capacity="1024"/>
   </tileCache>
-  <cpuElevationProducer name="cpuElevations" cache="groundElevationsCPU" residuals="groundResiduals1"/>
+  <cpuElevationProducer name="cpuElevations1" cache="groundElevationsCPU" residuals="groundResiduals1"/>
+  <cpuElevationProducer name="cpuElevations2" cache="groundElevationsCPU" residuals="groundResiduals2"/>
+  <cpuElevationProducer name="cpuElevations3" cache="groundElevationsCPU" residuals="groundResiduals3"/>
+  <cpuElevationProducer name="cpuElevations4" cache="groundElevationsCPU" residuals="groundResiduals4"/>
+  <cpuElevationProducer name="cpuElevations5" cache="groundElevationsCPU" residuals="groundResiduals5"/>
+  <cpuElevationProducer name="cpuElevations6" cache="groundElevationsCPU" residuals="groundResiduals6"/>
 
   <tileCache name="groundElevations" scheduler="defaultScheduler">
     <gpuTileStorage tileSize="101" nTiles="512" internalformat="RGB32F" format="RGB" type="FLOAT" min="LINEAR" mag="LINEAR"/>
   </tileCache>
   <elevationProducer name="groundElevations1" cache="groundElevations" residuals="groundResiduals1" flip="true">
-    <heightLayer name="heightLayer" cpuElevations="cpuElevations"/>
+    <heightLayer name="heightLayer1" cpuElevations="cpuElevations1"/>
+  </elevationProducer>
+  <elevationProducer name="groundElevations2" cache="groundElevations" residuals="groundResiduals2" flip="true">
+    <heightLayer name="heightLayer2" cpuElevations="cpuElevations2"/>
+  </elevationProducer>
+  <elevationProducer name="groundElevations3" cache="groundElevations" residuals="groundResiduals3" flip="true">
+    <heightLayer name="heightLayer3" cpuElevations="cpuElevations3"/>
+  </elevationProducer>
+  <elevationProducer name="groundElevations4" cache="groundElevations" residuals="groundResiduals4" flip="true">
+    <heightLayer name="heightLayer4" cpuElevations="cpuElevations4"/>
+  </elevationProducer>
+  <elevationProducer name="groundElevations5" cache="groundElevations" residuals="groundResiduals5" flip="true">
+    <heightLayer name="heightLayer5" cpuElevations="cpuElevations5"/>
+  </elevationProducer>
+  <elevationProducer name="groundElevations6" cache="groundElevations" residuals="groundResiduals6" flip="true">
+    <heightLayer name="heightLayer6" cpuElevations="cpuElevations6"/>
   </elevationProducer>
 
   <tileCache name="groundNormals" scheduler="defaultScheduler">
     <gpuTileStorage tileSize="97" nTiles="512" internalformat="RG8" format="RG" type="FLOAT" min="LINEAR" mag="LINEAR"/>
   </tileCache>
-  <normalProducer name="groundNormals1" cache="groundNormals" elevations="groundElevations1"/>
+  <normalProducer name="groundNormals1" cache="groundNormals" elevations="groundElevations1" deform="sphere"/>
+  <normalProducer name="groundNormals2" cache="groundNormals" elevations="groundElevations2" deform="sphere"/>
+  <normalProducer name="groundNormals3" cache="groundNormals" elevations="groundElevations3" deform="sphere"/>
+  <normalProducer name="groundNormals4" cache="groundNormals" elevations="groundElevations4" deform="sphere"/>
+  <normalProducer name="groundNormals5" cache="groundNormals" elevations="groundElevations5" deform="sphere"/>
+  <normalProducer name="groundNormals6" cache="groundNormals" elevations="groundElevations6" deform="sphere"/>
 
   <sequence name="cameraMethod">
     <foreach var="o" flag="dynamic" parallel="true">
@@ -60,7 +90,12 @@
     </foreach>
   </sequence>
 
-  <terrainNode name="terrain" size="6360000" zmin="0" zmax="10000" splitFactor="2" maxLevel="16"/>
+  <terrainNode name="earth1" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+  <terrainNode name="earth2" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+  <terrainNode name="earth3" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+  <terrainNode name="earth4" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+  <terrainNode name="earth5" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+  <terrainNode name="earth6" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
 
   <sequence name="updateTerrainMethod">
     <updateTerrain name="this.terrain"/>
@@ -84,11 +119,74 @@
       <method id="draw" value="cameraMethod"/>
     </node>
 
-    <node name="terrainNode" flags="object,dynamic">
+    <node name="earth1Node" flags="object,dynamic">
       <bounds xmin="-4504270" xmax="4504270" ymin="-4504270" ymax="4504270" zmin="4494270" zmax="6370000"/>
-      <field id="terrain" value="terrain"/>
+      <field id="terrain" value="earth1"/>
       <tileSamplerZ id="elevation" sampler="elevationSampler" producer="groundElevations1" storeInvisible="false"/>
-      <tileSampler id="fnormal" sampler="fragmentNormalSampler" producer="groundNormals1" storeParent="false" storeInvisible="false"/>
+      <tileSampler id="fnormal" sampler="fragmentNormalSampler" producer="groundNormals1" storeInvisible="false"/>
+      <mesh id="grid" value="quad.mesh"/>
+      <method id="update" value="updateTerrainMethod"/>
+      <method id="draw" value="drawTerrainMethod"/>
+      <module id="material" value="terrainShader"/>
+    </node>
+
+    <node name="earth2Node" flags="object,dynamic">
+      <rotatex angle="90"/>
+      <bounds xmin="-4504270" xmax="4504270" ymin="-4504270" ymax="4504270" zmin="4494270" zmax="6370000"/>
+      <field id="terrain" value="earth2"/>
+      <tileSamplerZ id="elevation" sampler="elevationSampler" producer="groundElevations2" storeInvisible="false"/>
+      <tileSampler id="fnormal" sampler="fragmentNormalSampler" producer="groundNormals2" storeInvisible="false"/>
+      <mesh id="grid" value="quad.mesh"/>
+      <method id="update" value="updateTerrainMethod"/>
+      <method id="draw" value="drawTerrainMethod"/>
+      <module id="material" value="terrainShader"/>
+    </node>
+
+    <node name="earth3Node" flags="object,dynamic">
+      <rotatex angle="90"/>
+      <rotatey angle="90"/>
+      <bounds xmin="-4504270" xmax="4504270" ymin="-4504270" ymax="4504270" zmin="4494270" zmax="6370000"/>
+      <field id="terrain" value="earth3"/>
+      <tileSamplerZ id="elevation" sampler="elevationSampler" producer="groundElevations3" storeInvisible="false"/>
+      <tileSampler id="fnormal" sampler="fragmentNormalSampler" producer="groundNormals3" storeInvisible="false"/>
+      <mesh id="grid" value="quad.mesh"/>
+      <method id="update" value="updateTerrainMethod"/>
+      <method id="draw" value="drawTerrainMethod"/>
+      <module id="material" value="terrainShader"/>
+    </node>
+
+    <node name="earth4Node" flags="object,dynamic">
+      <rotatex angle="90"/>
+      <rotatey angle="180"/>
+      <bounds xmin="-4504270" xmax="4504270" ymin="-4504270" ymax="4504270" zmin="4494270" zmax="6370000"/>
+      <field id="terrain" value="earth4"/>
+      <tileSamplerZ id="elevation" sampler="elevationSampler" producer="groundElevations4" storeInvisible="false"/>
+      <tileSampler id="fnormal" sampler="fragmentNormalSampler" producer="groundNormals4" storeInvisible="false"/>
+      <mesh id="grid" value="quad.mesh"/>
+      <method id="update" value="updateTerrainMethod"/>
+      <method id="draw" value="drawTerrainMethod"/>
+      <module id="material" value="terrainShader"/>
+    </node>
+
+    <node name="earth5Node" flags="object,dynamic">
+      <rotatex angle="90"/>
+      <rotatey angle="270"/>
+      <bounds xmin="-4504270" xmax="4504270" ymin="-4504270" ymax="4504270" zmin="4494270" zmax="6370000"/>
+      <field id="terrain" value="earth5"/>
+      <tileSamplerZ id="elevation" sampler="elevationSampler" producer="groundElevations5" storeInvisible="false"/>
+      <tileSampler id="fnormal" sampler="fragmentNormalSampler" producer="groundNormals5" storeInvisible="false"/>
+      <mesh id="grid" value="quad.mesh"/>
+      <method id="update" value="updateTerrainMethod"/>
+      <method id="draw" value="drawTerrainMethod"/>
+      <module id="material" value="terrainShader"/>
+    </node>
+
+    <node name="earth6Node" flags="object,dynamic">
+      <rotatex angle="180"/>
+      <bounds xmin="-4504270" xmax="4504270" ymin="-4504270" ymax="4504270" zmin="4494270" zmax="6370000"/>
+      <field id="terrain" value="earth6"/>
+      <tileSamplerZ id="elevation" sampler="elevationSampler" producer="groundElevations6" storeInvisible="false"/>
+      <tileSampler id="fnormal" sampler="fragmentNormalSampler" producer="groundNormals6" storeInvisible="false"/>
       <mesh id="grid" value="quad.mesh"/>
       <method id="update" value="updateTerrainMethod"/>
       <method id="draw" value="drawTerrainMethod"/>
@@ -97,6 +195,6 @@
   </node>
 
   <basicViewHandler name="viewHandler" viewManager="resourceContainer"/>
-  <resourceContainer name="resourceContainer" view="viewHandler" cpuElevations="cpuElevations"/>
+  <resourceContainer name="resourceContainer" view="viewHandler" cpuElevations="cpuElevations1" radius="6360000.0"/>
 
 </archive>

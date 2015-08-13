@@ -30,6 +30,10 @@ uniform vec3 tileSDF; // size in pixels of one tile, tileSize / grid mesh size f
 uniform sampler2DArray elevationSampler; // elevation texture
 uniform vec4 elevationOSL; // lower left corner of tile containing patch elevation, one over size in pixels of tiles texture, layer id
 
+uniform mat4 patchCorners;
+uniform mat4 patchVerticals;
+uniform vec4 patchCornerNorms;
+uniform mat3 worldToTangentFrame;
 uniform vec4 deform;
 
 #ifdef _VERTEX_
@@ -51,7 +55,21 @@ layout(location=0) out vec4 data;
 
 vec3 getWorldPosition(vec2 uv, float h) {
     uv = uv / (tileSDF.x - 1.0);
-    return vec3(deform.xy + deform.z * uv, h);
+
+    float R = deform.w;
+    mat4 C = patchCorners;
+    mat4 N = patchVerticals;
+    vec4 L = patchCornerNorms;
+
+    vec4 uvUV = vec4(uv, vec2(1.0) - uv);
+    vec4 alpha = uvUV.zxzx * uvUV.wwyy;
+    vec4 alphaPrime = alpha * L / dot(alpha, L);
+
+    vec4 up = N * alphaPrime;
+    float k = mix(length(up.xyz), 1.0, smoothstep(R / 32.0, R / 64.0, deform.z));
+    float hPrime = (h + R * (1.0 - k)) / k;
+
+    return (C * alphaPrime + hPrime * up).xyz;
 }
 
 void main() {
@@ -68,7 +86,7 @@ void main() {
     vec3 p1 = getWorldPosition(p_uv + vec2(+1.0, 0.0), z1).xyz;
     vec3 p2 = getWorldPosition(p_uv + vec2(0.0, -1.0), z2).xyz;
     vec3 p3 = getWorldPosition(p_uv + vec2(0.0, +1.0), z3).xyz;
-    vec2 nf = normalize(cross(p1 - p0, p3 - p2)).xy;
+    vec2 nf = (worldToTangentFrame * normalize(cross(p1 - p0, p3 - p2))).xy;
 
     data = vec4(nf.xy * 0.5, 0.0, 0.0) + vec4(0.5);
 }
