@@ -98,6 +98,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_main_window.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\dem\cube_mapper.cpp" />
     <ClCompile Include="src\dem\elevation_cursor.cpp" />
     <ClCompile Include="src\producer\height_layer.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -119,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_main_window.h" />
+    <ClInclude Include="src\dem\cube_mapper.h" />
     <ClInclude Include="src\dem\elevation_cursor.h" />
     <ClInclude Include="src\math\lat_lon.h" />
     <ClInclude Include="src\producer\height_layer.h" />

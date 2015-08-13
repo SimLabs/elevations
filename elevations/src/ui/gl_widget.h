@@ -10,7 +10,6 @@
 #include <proland/ui/BasicViewHandler.h>
 
 #include "resource/resource_container.h"
-#include "dem/elevation_cursor.h"
 
 namespace elevations
 {
@@ -48,7 +47,7 @@ namespace elevations
 			explicit gl_widget(QWidget* parent = nullptr);
 			virtual ~gl_widget();
 
-			void init(const resource::resource_container* container, const dem::elevation_cursor* cursor = nullptr);
+			void init(const resource::resource_container* container);
 
 		public Q_SLOTS:
 			void updateGL() override;
@@ -71,7 +70,6 @@ namespace elevations
 			bool damaged_;
 
 			resource::resource_container* resource_container_;
-			dem::elevation_cursor* elevation_cursor_;
 
 			ptr<proland::BasicViewHandler> get_view_handler() const;
 		};

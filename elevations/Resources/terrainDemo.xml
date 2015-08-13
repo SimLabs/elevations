@@ -195,6 +195,7 @@
   </node>
 
   <basicViewHandler name="viewHandler" viewManager="resourceContainer"/>
-  <resourceContainer name="resourceContainer" view="viewHandler" cpuElevations="cpuElevations1" radius="6360000.0"/>
+  <cubeMapper name="cubeMapper" face1="cpuElevations1" face2="cpuElevations2" face3="cpuElevations3" face4="cpuElevations4" face5="cpuElevations5" face6="cpuElevations6"/>
+  <resourceContainer name="resourceContainer" view="viewHandler" radius="6360000.0" cubeMapper="cubeMapper"/>
 
 </archive>

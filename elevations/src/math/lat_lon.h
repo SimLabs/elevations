@@ -81,31 +81,31 @@ namespace elevations
 				both_are_max(cartesian_abs.y, cartesian_abs.z, max) ||
 				both_are_max(cartesian_abs.x, cartesian_abs.z, max))
 			{
-				return 0;
+				return -1;
 			}
 			if (cartesian.z == max)
 			{
-				return 1;
+				return 0;
 			}
 			if (-cartesian.y == max)
 			{
-				return 2;
+				return 1;
 			}
 			if (cartesian.x == max)
 			{
-				return 3;
+				return 2;
 			}
 			if (cartesian.y == max)
 			{
-				return 4;
+				return 3;
 			}
 			if (-cartesian.x == max)
 			{
-				return 5;
+				return 4;
 			}
 			if (-cartesian.z == max)
 			{
-				return 6;
+				return 5;
 			}
 			assert(false);
 			return 0;

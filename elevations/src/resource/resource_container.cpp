@@ -17,7 +17,7 @@ namespace elevations
 				: ResourceTemplate<100, resource_container>(resource_manager, name, descriptor)
 			{
 				element = element == nullptr ? descriptor->descriptor : element;
-				checkParameters(descriptor, element, "name,view,radius,distance,dr,cpuElevations,");
+				checkParameters(descriptor, element, "name,view,radius,dr,cubeMapper,");
 
 				scene_manager_ = new SceneManager();
 				scene_manager_->setResourceManager(resource_manager);
@@ -27,14 +27,10 @@ namespace elevations
 				scene_manager_->setCameraMethod("draw");
 
 				view_handler_ = manager->loadResource(getParameter(descriptor, element, "view")).cast<proland::BasicViewHandler>();
-				elevation_producer_ = manager->loadResource(getParameter(descriptor, element, "cpuElevations")).cast<proland::CPUElevationProducer>();
+				cube_mapper_ = manager->loadResource(getParameter(descriptor, element, "cubeMapper")).cast<dem::cube_mapper>();
 				if (element->Attribute("radius") != nullptr)
 				{
 					getFloatParameter(descriptor, element, "radius", &radius_);
-				}
-				if (element->Attribute("distance") != nullptr)
-				{
-					getFloatParameter(descriptor, element, "distance", &distance_);
 				}
 				if (element->Attribute("dr") != nullptr)
 				{
@@ -63,7 +59,6 @@ using elevations::resource::resource_container;
 resource_container::resource_container()
 	: Object(RESOURCE_CONTAINER_STRING)
 	, radius_(0.0f)
-	, distance_(50000.0f)
 	, dr_(1.1f)
 {
 }
@@ -82,11 +77,6 @@ ptr<proland::BasicViewHandler> resource_container::get_view_handler() const
 	return view_handler_;
 }
 
-ptr<proland::CPUElevationProducer> resource_container::get_elevations_producer() const
-{
-	return elevation_producer_;
-}
-
 ptr<SceneManager> resource_container::getScene()
 {
 	return scene_manager_;
@@ -96,10 +86,10 @@ ptr<proland::TerrainViewController> resource_container::getViewController()
 {
 	if (view_controller_ == nullptr)
 	{
+		assert(radius_ > 0);
+
 		auto camera_node = scene_manager_->getCameraNode();
-		view_controller_ = radius_ == 0.0f ?
-			new proland::TerrainViewController(camera_node, distance_) :
-			new proland::PlanetViewController(camera_node, radius_);
+		view_controller_ = new proland::PlanetViewController(camera_node, radius_);
 	}
 	return view_controller_;
 }
@@ -137,7 +127,6 @@ void resource_container::swap(ptr<resource_container> other)
 {
 	using std::swap;
 	swap(radius_, other->radius_);
-	swap(distance_, other->distance_);
 	swap(dr_, other->dr_);
 	swap(scene_manager_, other->scene_manager_);
 	swap(view_handler_, other->view_handler_);

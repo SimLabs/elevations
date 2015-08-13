@@ -2,7 +2,8 @@
 
 #include <ork/scenegraph/SceneManager.h>
 #include <proland/ui/BasicViewHandler.h>
-#include <proland/dem/CPUElevationProducer.h>
+#include <proland/util/PlanetViewController.h>
+#include <src/dem/cube_mapper.h>
 
 namespace elevations
 {
@@ -16,7 +17,6 @@ namespace elevations
 			void update_resources() const;
 
 			ptr<proland::BasicViewHandler> get_view_handler() const;
-			ptr<proland::CPUElevationProducer> get_elevations_producer() const;
 
 			ptr<SceneManager> getScene() override;
 			ptr<proland::TerrainViewController> getViewController() override;
@@ -27,13 +27,13 @@ namespace elevations
 			static const double DISTANCE_INFINITY;
 
 		protected:
-			float radius_, distance_, dr_;
+			float radius_, dr_;
 
 			ptr<SceneManager> scene_manager_;
 			ptr<proland::BasicViewHandler> view_handler_;
-			ptr<proland::TerrainViewController> view_controller_;
+			ptr<proland::PlanetViewController> view_controller_;
 
-			ptr<proland::CPUElevationProducer> elevation_producer_;
+			ptr<dem::cube_mapper> cube_mapper_;
 
 			void swap(ptr<resource_container> o);
 		};

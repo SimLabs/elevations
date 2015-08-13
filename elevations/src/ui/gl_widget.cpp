@@ -10,7 +10,6 @@ gl_widget::gl_widget(QWidget* parent)
 	, time_(std::make_pair(0.0, 0.0))
 	, damaged_(false)
 	, resource_container_(nullptr)
-	, elevation_cursor_(nullptr)
 {
 	connect(&q_timer_, SIGNAL(timeout()), this, SLOT(updateGL()));
 	q_timer_.start();
@@ -22,10 +21,9 @@ gl_widget::~gl_widget()
 	Object::exit();
 }
 
-void gl_widget::init(const elevations::resource::resource_container* container, const elevations::dem::elevation_cursor* cursor)
+void gl_widget::init(const elevations::resource::resource_container* container)
 {
 	resource_container_ = const_cast<resource::resource_container*>(container);
-	elevation_cursor_ = const_cast<dem::elevation_cursor*>(cursor);
 }
 
 void gl_widget::updateGL()
@@ -94,11 +92,6 @@ void gl_widget::mousePressEvent(QMouseEvent* event)
 			static_cast<EventHandler::modifier>(0),
 			event->x(),
 			event->y());
-	}
-
-	if (elevation_cursor_ != nullptr && event->buttons() & Qt::RightButton)
-	{
-		
 	}
 }
 
