@@ -53,20 +53,20 @@
     <heightLayer name="heightLayer1" cpuElevations="cpuElevations1"/>
   </elevationProducer>
   <elevationProducer name="groundElevations2" cache="groundElevations" residuals="groundResiduals2" flip="true">
-    <heightLayer name="heightLayer2" cpuElevations="cpuElevations2"/>
-  </elevationProducer>
+    <heightLayer name="heightLayer2" cpuElevations="cpuElevations2" rotatex="90"/>
+   </elevationProducer>
   <elevationProducer name="groundElevations3" cache="groundElevations" residuals="groundResiduals3" flip="true">
-    <heightLayer name="heightLayer3" cpuElevations="cpuElevations3"/>
+    <heightLayer name="heightLayer3" cpuElevations="cpuElevations3" rotatex="90" rotatey="90"/>
   </elevationProducer>
   <elevationProducer name="groundElevations4" cache="groundElevations" residuals="groundResiduals4" flip="true">
-    <heightLayer name="heightLayer4" cpuElevations="cpuElevations4"/>
+    <heightLayer name="heightLayer4" cpuElevations="cpuElevations4" rotatex="90" rotatey="180"/>
   </elevationProducer>
   <elevationProducer name="groundElevations5" cache="groundElevations" residuals="groundResiduals5" flip="true">
-    <heightLayer name="heightLayer5" cpuElevations="cpuElevations5"/>
+    <heightLayer name="heightLayer5" cpuElevations="cpuElevations5" rotatex="90" rotatey="270"/>
   </elevationProducer>
   <elevationProducer name="groundElevations6" cache="groundElevations" residuals="groundResiduals6" flip="true">
-    <heightLayer name="heightLayer6" cpuElevations="cpuElevations6"/>
-  </elevationProducer>
+    <heightLayer name="heightLayer6" cpuElevations="cpuElevations6" rotatex="180"/>
+   </elevationProducer>
 
   <tileCache name="groundNormals" scheduler="defaultScheduler">
     <gpuTileStorage tileSize="97" nTiles="512" internalformat="RG8" format="RG" type="FLOAT" min="LINEAR" mag="LINEAR"/>
@@ -195,7 +195,7 @@
   </node>
 
   <basicViewHandler name="viewHandler" viewManager="resourceContainer"/>
-  <cubeMapper name="cubeMapper" face1="cpuElevations1" face2="cpuElevations2" face3="cpuElevations3" face4="cpuElevations4" face5="cpuElevations5" face6="cpuElevations6"/>
+  <cubeMapper name="cubeMapper" face1="heightLayer1" face2="heightLayer2" face3="heightLayer3" face4="heightLayer4" face5="heightLayer5" face6="heightLayer6"/>
   <resourceContainer name="resourceContainer" view="viewHandler" radius="6360000.0" cubeMapper="cubeMapper"/>
 
 </archive>

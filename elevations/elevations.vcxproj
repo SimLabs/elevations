@@ -100,6 +100,7 @@
     </ClCompile>
     <ClCompile Include="src\dem\cube_mapper.cpp" />
     <ClCompile Include="src\dem\elevation_cursor.cpp" />
+    <ClCompile Include="src\dem\location.cpp" />
     <ClCompile Include="src\producer\height_layer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\resource\resource_container.cpp" />
@@ -122,6 +123,7 @@
     <ClInclude Include="GeneratedFiles\ui_main_window.h" />
     <ClInclude Include="src\dem\cube_mapper.h" />
     <ClInclude Include="src\dem\elevation_cursor.h" />
+    <ClInclude Include="src\dem\location.h" />
     <ClInclude Include="src\math\lat_lon.h" />
     <ClInclude Include="src\producer\height_layer.h" />
     <ClInclude Include="src\resource\resource_container.h" />

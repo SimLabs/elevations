@@ -3,7 +3,8 @@
 #include <ork/scenegraph/SceneManager.h>
 #include <proland/ui/BasicViewHandler.h>
 #include <proland/util/PlanetViewController.h>
-#include <src/dem/cube_mapper.h>
+
+#include "dem/cube_mapper.h"
 
 namespace elevations
 {
@@ -12,11 +13,12 @@ namespace elevations
 		class resource_container : public Object, public proland::ViewManager
 		{
 		public:
-			resource_container();
+			explicit resource_container(float radius = 1.0f, float dr = 1.1f);
 
 			void update_resources() const;
 
 			ptr<proland::BasicViewHandler> get_view_handler() const;
+			ptr<dem::cube_mapper> get_cube_mapper() const;
 
 			ptr<SceneManager> getScene() override;
 			ptr<proland::TerrainViewController> getViewController() override;

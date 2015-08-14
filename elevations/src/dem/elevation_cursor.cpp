@@ -2,129 +2,110 @@
 
 using elevations::dem::elevation_cursor;
 
-elevation_cursor::cursor_task::cursor_task(elevation_cursor* elevation_cursor, const char* type, unsigned deadline)
+elevation_cursor::cursor_task::cursor_task(ptr<elevation_cursor> elevation_cursor, const char* type, unsigned deadline)
 	: Task(type, false, deadline)
 	, elevation_cursor_(elevation_cursor)
 {
+	assert(elevation_cursor_ != nullptr && elevation_cursor_->task_graph_ != nullptr);
 	elevation_cursor_->task_graph_->addTask(this);
 }
 
-void elevation_cursor::cursor_task::add_subtask(ptr<Task> task, bool before)
+ptr<elevations::dem::location> elevation_cursor::cursor_task::get_location() const
 {
-	auto task_graph = elevation_cursor_->task_graph_;
-	task_graph->addTask(task);
-	if (before)
-	{
-		task_graph->addDependency(this, task);
-	}
-	else
-	{
-		task_graph->addDependency(task, this);
-	}
+	return elevation_cursor_->location_;
+}
 
+void elevation_cursor::cursor_task::add_subtask(ptr<Task> task)
+{
+	assert(task != nullptr);
+	auto task_graph = elevation_cursor_->task_graph_;
+	task_graph->addTask(this);
+	task_graph->addDependency(task, this);
 	elevation_cursor_->reschedule();
 }
 
-ptr<proland::CPUElevationProducer> elevation_cursor::cursor_task::get_elevation_producer() const
-{
-	return elevation_cursor_->elevation_producer_;
-}
-
-elevation_cursor::set_location_task::set_location_task(double x, double y, elevation_cursor* elevation_cursor, unsigned deadline)
+elevation_cursor::set_location_task::set_location_task(const elevations::math::lat_lon_d& lat_lon, ptr<elevation_cursor> elevation_cursor, unsigned deadline)
 	: cursor_task(elevation_cursor, "SetPositionTask", deadline)
-	, x_(x)
-	, y_(y)
+	, lat_lon_(lat_lon)
 {
 }
 
 bool elevation_cursor::set_location_task::run()
 {
-	elevation_cursor_->x_ = x_;
-	elevation_cursor_->y_ = y_;
+	elevation_cursor_->lat_lon_ = lat_lon_;
 	elevation_cursor_->current_height_ = 0.0f;
-	elevation_cursor_->set_level(get_elevation_producer()->getMinLevel());
+	elevation_cursor_->location_ = elevation_cursor_->cube_mapper_->to_location(lat_lon_);
 
-	add_subtask(new get_height_task(elevation_cursor_, getDeadline()));
+	add_subtask(new get_height_task(get_location(), elevation_cursor_, getDeadline()));
 
 	return true;
 }
 
-elevation_cursor::set_level_task::set_level_task(int level, elevation_cursor* elevation_cursor, unsigned deadline)
+elevation_cursor::set_level_task::set_level_task(size_t level, ptr<elevation_cursor> elevation_cursor, unsigned deadline)
 	: cursor_task(elevation_cursor, "SetLevelTask", deadline)
 	, level_(level)
 {
-	auto elevation_producer = get_elevation_producer();
-	assert(elevation_producer->getMinLevel() <= level && level <= elevation_producer->getMaxLevel());
 }
 
 bool elevation_cursor::set_level_task::run()
 {
-	auto old_level = elevation_cursor_->level_;
-	elevation_cursor_->set_level(level_);
-
-	if (level_ > old_level)
+	if (level_ > get_location()->set_level(level_))
 	{
-		add_subtask(new get_height_task(elevation_cursor_, getDeadline()));
+		add_subtask(new get_height_task(get_location(), elevation_cursor_, getDeadline()));
 	}
 
 	return true;
 }
 
-elevation_cursor::get_height_task::get_height_task(elevation_cursor* elevation_cursor, unsigned deadline)
+elevation_cursor::get_height_task::get_height_task(ptr<elevations::dem::location> location, ptr<elevation_cursor> elevation_cursor, unsigned deadline)
 	: cursor_task(elevation_cursor, "GetHeightTask", deadline)
-	, level_(elevation_cursor->level_)
-	, tx_(elevation_cursor->tx_)
-	, ty_(elevation_cursor->ty_)
-	, x_(elevation_cursor->x_)
-	, y_(elevation_cursor->y_)
 {
-	auto tile = get_elevation_producer()->getTile(level_, tx_, ty_, deadline);
+	location_.reset(new elevations::dem::location(*location));
+
+	auto tile = location_->get_tile(deadline);
 	assert(tile != nullptr);
+
+	auto task_graph = elevation_cursor_->task_graph_;
 
 	auto task = tile->task;
 	assert(task != nullptr);
 	if (!task->isDone())
 	{
-		add_subtask(task, true);
+		task_graph->addTask(task);
+		task_graph->addDependency(this, task);
 	}
 }
 
 bool elevation_cursor::get_height_task::run()
 {
-	elevation_cursor_->current_height_ = proland::CPUElevationProducer::getHeight(get_elevation_producer(), level_, x_, y_);
+	elevation_cursor_->current_height_ = location_->get_height();
 
 	return true;
 }
 
 void elevation_cursor::get_height_task::setIsDone(bool done, unsigned t, reason r)
 {
-	Task::setIsDone(done, t, r);
-
 	if (done)
 	{
-		auto elevation_producer = get_elevation_producer();
-		elevation_producer->putTile(elevation_producer->findTile(level_, tx_, ty_, true));
+		location_->put_tile();
 	}
+	Task::setIsDone(done, t, r);
 }
 
-elevation_cursor::elevation_cursor(ptr<proland::CPUElevationProducer> elevation_producer)
+elevation_cursor::elevation_cursor(ptr<elevations::dem::cube_mapper> cube_mapper)
 	: Object("ElevationCursor")
-	, elevation_producer_(elevation_producer)
-	, task_graph_(new TaskGraph())
-	, x_(0.0f)
-	, y_(0.0f)
+	, lat_lon_()
 	, current_height_(0.0f)
-	, level_(0)
-	, tx_(0)
-	, ty_(0)
+	, cube_mapper_(cube_mapper)
+	, task_graph_(new TaskGraph())
 {
-	assert(elevation_producer_ != nullptr);
-	level_ = elevation_producer_->getMinLevel();
+	assert(cube_mapper != nullptr);
+	location_ = cube_mapper_->to_location(lat_lon_);
 }
 
-void elevation_cursor::set_position(double x, double y)
+void elevation_cursor::set_position(const elevations::math::lat_lon_d& lat_lon)
 {
-	ptr<Task> task = new set_location_task(x, y, this);
+	ptr<Task> task = new set_location_task(lat_lon, this);
 	reschedule();
 }
 
@@ -133,29 +114,13 @@ double elevation_cursor::get_current_height() const
 	return current_height_;
 }
 
-void elevation_cursor::leave_request(int level)
+void elevation_cursor::leave_request(size_t level)
 {
 	ptr<Task> task = new set_level_task(level, this);
 	reschedule();
 }
 
-void elevation_cursor::set_level(int level)
-{
-	auto quad_size = elevation_producer_->getRootQuadSize();
-	level_ = level;
-	tx_ = details::physical_to_logical(x_, quad_size, level);
-	ty_ = details::physical_to_logical(y_, quad_size, level);
-}
-
 void elevation_cursor::reschedule() const
 {
-	elevation_producer_->getCache()->getScheduler()->schedule(task_graph_);
-}
-
-int elevations::dem::details::physical_to_logical(double value, double quad_size, int level)
-{
-	assert(quad_size != 0);
-	auto result = value / quad_size + 0.5f;
-	auto temp = 1 << level;
-	return result >= 0.0f && result <= 1.0f ? result * temp : -1;
+	location_->schedule(task_graph_);
 }

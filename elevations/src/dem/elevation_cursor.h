@@ -2,6 +2,8 @@
 
 #include <proland/dem/CPUElevationProducer.h>
 
+#include "dem/cube_mapper.h"
+
 namespace elevations
 {
 	namespace dem
@@ -11,68 +13,61 @@ namespace elevations
 			class cursor_task : public Task
 			{
 			protected:
-				cursor_task(elevation_cursor* elevation_cursor, const char* type, unsigned deadline = 0);
+				cursor_task(ptr<elevation_cursor> elevation_cursor, const char* type, unsigned deadline = 0);
 
-				void add_subtask(ptr<Task> task, bool before = false);
-				ptr<proland::CPUElevationProducer> get_elevation_producer() const;
+				ptr<location> get_location() const;
+				void add_subtask(ptr<Task> task);
 
-				elevation_cursor* elevation_cursor_;
+				ptr<elevation_cursor> elevation_cursor_;
 			};
 
 			class set_location_task : public cursor_task
 			{
 			public:
-				set_location_task(double x, double y, elevation_cursor* elevation_cursor, unsigned deadline = 0);
+				set_location_task(const math::lat_lon_d& lat_lon, ptr<elevation_cursor> elevation_cursor, unsigned deadline = 0);
 				bool run() override;
 
 			private:
-				double x_, y_;
+				math::lat_lon_d lat_lon_;
 			};
 
 			class set_level_task : public cursor_task
 			{
 			public:
-				set_level_task(int level, elevation_cursor* elevation_cursor, unsigned deadline = 0);
+				set_level_task(size_t level, ptr<elevation_cursor> elevation_cursor, unsigned deadline = 0);
 				bool run() override;
 
 			private:
-				int level_;
+				size_t level_;
 			};
 
 			class get_height_task : public cursor_task
 			{
 			public:
-				explicit get_height_task(elevation_cursor* elevation_cursor, unsigned deadline = 0);
+				explicit get_height_task(ptr<location> location, ptr<elevation_cursor> elevation_cursor, unsigned deadline = 0);
 				bool run() override;
 				void setIsDone(bool done, unsigned int t, reason r = DATA_NEEDED) override;
 
 			private:
-				int level_, tx_, ty_;
-				double x_, y_;
+				ptr<location> location_;
 			};
 
 		public:
-			explicit elevation_cursor(ptr<proland::CPUElevationProducer> elevation_producer);
+			explicit elevation_cursor(ptr<cube_mapper> cube_mapper);
 
-			void set_position(double x, double y);
+			void set_position(const math::lat_lon_d& lat_lon);
 			double get_current_height() const;
-			void leave_request(int level);
+			void leave_request(size_t level);
 
 		private:
-			ptr<proland::CPUElevationProducer> elevation_producer_;
+			math::lat_lon_d lat_lon_;
+			double current_height_;
+			
+			ptr<cube_mapper> cube_mapper_;			
 			ptr<TaskGraph> task_graph_;
-
-			double x_, y_, current_height_;
-			int level_, tx_, ty_;
-
-			void set_level(int level);
+			ptr<location> location_;
 
 			void reschedule() const;
 		};
-
-		namespace details
-		{
-			int physical_to_logical(double value, double quad_size, int level);
-		} // utils
 	} // digital elevation model
 } // project namespace

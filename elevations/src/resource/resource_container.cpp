@@ -26,8 +26,6 @@ namespace elevations
 				scene_manager_->setCameraNode("camera");
 				scene_manager_->setCameraMethod("draw");
 
-				view_handler_ = manager->loadResource(getParameter(descriptor, element, "view")).cast<proland::BasicViewHandler>();
-				cube_mapper_ = manager->loadResource(getParameter(descriptor, element, "cubeMapper")).cast<dem::cube_mapper>();
 				if (element->Attribute("radius") != nullptr)
 				{
 					getFloatParameter(descriptor, element, "radius", &radius_);
@@ -36,6 +34,9 @@ namespace elevations
 				{
 					getFloatParameter(descriptor, element, "dr", &dr_);
 				}
+				view_handler_ = manager->loadResource(getParameter(descriptor, element, "view")).cast<proland::BasicViewHandler>();
+				cube_mapper_ = manager->loadResource(getParameter(descriptor, element, "cubeMapper")).cast<dem::cube_mapper>();
+				cube_mapper_->init(radius_);
 			}
 
 			virtual void doRelease() override
@@ -56,10 +57,10 @@ namespace elevations
 
 using elevations::resource::resource_container;
 
-resource_container::resource_container()
+resource_container::resource_container(float radius, float dr)
 	: Object(RESOURCE_CONTAINER_STRING)
-	, radius_(0.0f)
-	, dr_(1.1f)
+	, radius_(radius)
+	, dr_(dr)
 {
 }
 
@@ -77,6 +78,11 @@ ptr<proland::BasicViewHandler> resource_container::get_view_handler() const
 	return view_handler_;
 }
 
+ptr<elevations::dem::cube_mapper> resource_container::get_cube_mapper() const
+{
+	return cube_mapper_;
+}
+
 ptr<SceneManager> resource_container::getScene()
 {
 	return scene_manager_;
@@ -87,7 +93,6 @@ ptr<proland::TerrainViewController> resource_container::getViewController()
 	if (view_controller_ == nullptr)
 	{
 		assert(radius_ > 0);
-
 		auto camera_node = scene_manager_->getCameraNode();
 		view_controller_ = new proland::PlanetViewController(camera_node, radius_);
 	}
@@ -131,6 +136,7 @@ void resource_container::swap(ptr<resource_container> other)
 	swap(scene_manager_, other->scene_manager_);
 	swap(view_handler_, other->view_handler_);
 	swap(view_controller_, other->view_controller_);
+	swap(cube_mapper_, other->cube_mapper_);
 }
 
 const double resource_container::DISTANCE_INFINITY = 100000.0;

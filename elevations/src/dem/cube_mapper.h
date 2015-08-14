@@ -3,6 +3,11 @@
 #include <array>
 
 #include <proland/dem/CPUElevationProducer.h>
+#include <proland/terrain/SphericalDeformation.h>
+
+#include "producer/height_layer.h"
+#include "math/lat_lon.h"
+#include "dem/location.h"
 
 namespace elevations
 {
@@ -11,15 +16,17 @@ namespace elevations
 		class cube_mapper : public Object
 		{
 		public:
-			explicit cube_mapper();
+			explicit cube_mapper(float radius = 1.0f);
+			void init(float radius);
 
-			ptr<proland::CPUElevationProducer> operator[](size_t index);
+			ptr<location> to_location(const math::lat_lon_d& lat_lon) const;
 
-			static const size_t FACES_NUMBER = 6;
-			typedef std::array<ptr<proland::CPUElevationProducer>, FACES_NUMBER> elevation_producers;
+		private:
+			ptr<proland::SphericalDeformation> spherical_deformation_;			
 
 		protected:
-			elevation_producers elevation_producers_;
+			static const size_t FACES_NUMBER = 6;
+			std::array<ptr<producer::height_layer>, FACES_NUMBER> height_layers_;
 
 			void swap(ptr<cube_mapper> other);
 		};

@@ -18,7 +18,7 @@ namespace elevations
 				for (size_t i = 0; i < FACES_NUMBER; ++i)
 				{
 					auto key = "face" + std::to_string(i + 1);
-					elevation_producers_[i] = manager->loadResource(getParameter(descriptor, element, key.c_str())).cast<proland::CPUElevationProducer>();
+					height_layers_[i] = manager->loadResource(getParameter(descriptor, element, key.c_str())).cast<producer::height_layer>();
 				}
 			}
 		};
@@ -31,18 +31,30 @@ namespace elevations
 
 using elevations::dem::cube_mapper;
 
-cube_mapper::cube_mapper()
+cube_mapper::cube_mapper(float radius)
 	: Object(ELEVATION_PRODUCER_CONTAINER_STRING)
 {
+	init(radius);
 }
 
-ptr<proland::CPUElevationProducer> cube_mapper::operator[](size_t index)
+void cube_mapper::init(float radius)
 {
-	assert(index < elevation_producers_.size());
-	return elevation_producers_[index];
+	assert(radius > 0);
+	spherical_deformation_ = new proland::SphericalDeformation(radius);
+}
+
+ptr<elevations::dem::location> cube_mapper::to_location(const elevations::math::lat_lon_d& lat_lon) const
+{
+	auto cube_face_index = lat_lon.determine_cube_face();
+	assert(cube_face_index != -1);
+
+	auto height_layer = height_layers_[cube_face_index];
+	auto vector = spherical_deformation_->deformedToLocal(height_layer->rotate(lat_lon.to_cartesian()));
+	return new location(vector.x, vector.y, height_layer);
 }
 
 void cube_mapper::swap(ptr<cube_mapper> other)
 {
-	std::swap(elevation_producers_, other->elevation_producers_);
+	std::swap(spherical_deformation_, other->spherical_deformation_);
+	std::swap(height_layers_, other->height_layers_);
 }

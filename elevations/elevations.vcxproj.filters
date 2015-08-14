@@ -65,10 +65,13 @@
     <ClCompile Include="src\producer\height_layer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\dem\cube_mapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\dem\elevation_cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dem\cube_mapper.cpp">
+    <ClCompile Include="src\dem\location.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -96,13 +99,16 @@
     <ClInclude Include="src\producer\height_layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dem\elevation_cursor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\math\lat_lon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dem\cube_mapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dem\elevation_cursor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dem\location.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

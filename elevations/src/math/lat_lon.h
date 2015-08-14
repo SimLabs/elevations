@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <algorithm>
+
 #include <pmath.h>
 
 #include <ork/math/vec3.h>
@@ -25,9 +27,15 @@ namespace elevations
 			}
 
 			template <typename T>
+			bool is_equal(T x, T y)
+			{
+				return std::abs(x - y) < lat_lon<T>::EPSILON;
+			}
+
+			template <typename T>
 			bool both_are_max(T x, T y, T max)
 			{
-				return x == y && x == max;
+				return is_equal(x, y) && is_equal(x, max);
 			}
 		} // utils
 
@@ -35,19 +43,24 @@ namespace elevations
 		class lat_lon
 		{
 		public:
-			lat_lon(T latitude, T longitude);
+			explicit lat_lon(T latitude = T(), T longitude = T());
+			lat_lon(const lat_lon<T>& other) = default;
+			lat_lon(lat_lon<T>&& other);
+			
+			lat_lon<T>& operator=(lat_lon<T> other);
+			void swap(lat_lon<T>& other);
 
 			vec3<T> to_cartesian() const;
-			int determine_cube_face() const;
-
-			const T latitude_, longitude_;
+			int determine_cube_face() const;			
 
 			static const T LATITUDE_MAX_VALUE;
 			static const T LONGITUDE_MAX_VALUE;
 			static const T DEGREES_TO_RADIANS_COEFFICIENT;
 
+			static const T EPSILON;
+
 		private:
-			const T latitude_radians_, longitude_radians_;
+			T latitude_, longitude_, latitude_radians_, longitude_radians_;
 		};
 
 		template <typename T>
@@ -57,7 +70,33 @@ namespace elevations
 			, latitude_radians_(details::to_radians(latitude))
 			, longitude_radians_(details::to_radians(longitude))
 		{
-			assert(std::abs(latitude) <= LATITUDE_MAX_VALUE && std::abs(longitude) <= LONGITUDE_MAX_VALUE);
+			assert(std::abs(latitude_) <= LATITUDE_MAX_VALUE && std::abs(longitude_) <= LONGITUDE_MAX_VALUE);
+		}
+
+		template <typename T>
+		lat_lon<T>::lat_lon(lat_lon<T>&& other)
+			: lat_lon(other.latitude_, other.longitude_)
+		{
+		}
+
+		template <typename T>
+		lat_lon<T>& lat_lon<T>::operator=(lat_lon<T> other)
+		{
+			if (this != &other)
+			{
+				swap(other);
+			}
+			return *this;
+		}
+
+		template <typename T>
+		void lat_lon<T>::swap(lat_lon<T>& other)
+		{
+			using std::swap;
+			swap(latitude_, other.latitude_);
+			swap(longitude_, other.longitude_);
+			swap(latitude_radians_, other.latitude_radians_);
+			swap(longitude_radians_, other.longitude_radians_);
 		}
 
 		template <typename T>
@@ -108,7 +147,7 @@ namespace elevations
 				return 5;
 			}
 			assert(false);
-			return 0;
+			return -1;
 		}
 
 		template <typename T>
@@ -121,6 +160,9 @@ namespace elevations
 		const T lat_lon<T>::DEGREES_TO_RADIANS_COEFFICIENT = M_PI / LONGITUDE_MAX_VALUE;
 
 		typedef lat_lon<float> lat_lon_f;
-		typedef lat_lon<double> lat_lon_d;		
+		typedef lat_lon<double> lat_lon_d;
+
+		const float lat_lon_f::EPSILON = 1e-6;
+		const double lat_lon_d::EPSILON = 1e-9;
 	} // primitives
 } // project namespace
