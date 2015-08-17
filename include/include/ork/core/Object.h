@@ -300,11 +300,11 @@ public:
 	/**
 	 * Creates a pointer as a copy of the given pointer and releases the given one.
 	 */
-	template<class U>
-	inline ptr(TR1::shared_ptr<U> &&p) : TR1::shared_ptr<T>(p)
-	{
-		p.reset();
-	}
+//	template<class U>
+//	inline ptr(TR1::shared_ptr<U> &&p) : TR1::shared_ptr<T>(p)
+//	{
+//		p.reset();
+//	}
 
     /**
      * Creates a pointer as a copy of the given pointer.
@@ -317,23 +317,23 @@ public:
 	/**
 	 * Creates a pointer as a copy of the given pointer and releases the given one.
 	 */
-	template<class U>
-	inline ptr(TR1::weak_ptr<U> &&p) : TR1::shared_ptr<T>(p)
-	{
-		p.reset();
-	}
+//	template<class U>
+//	inline ptr(TR1::weak_ptr<U> &&p) : TR1::shared_ptr<T>(p)
+//	{
+//		p.reset();
+//	}
 
 	/*
 	 * Assigns the given pointer to this pointer.
 	 */
-	inline ptr<T>& operator=(ptr<T> p)
-	{
-		if (this != &p)
-		{
-			swap(p);
-		}
-		return *this;
-	}
+//	inline ptr<T>& operator=(ptr<T> p)
+//	{
+//		if (this != &p)
+//		{
+//			swap(p);
+//		}
+//		return *this;
+//	}
 
     /**
      * Casts this pointer to a pointer of the given type with dynamic_cast.
@@ -347,20 +347,20 @@ public:
 	/**
 	 * Returns true if this pointer points to the given object.
 	 */
-	template <class U>
-	inline bool operator==(const U* const target) const
-	{
-		return this->get() == target;
-	}
+//	template <class U>
+//	inline bool operator==(const U* const target) const
+//	{
+//		return this->get() == target;
+//	}
 
 	/**
 	 * Returns true if this pointer does not points to the given object.
 	 */
-	template <class U>
-	inline bool operator!=(const U* const target) const
-	{
-		return !this->operator==(target);
-	}
+//	template <class U>
+//	inline bool operator!=(const U* const target) const
+//	{
+//		return !this->operator==(target);
+//	}
 };
 #else
 template <class T>

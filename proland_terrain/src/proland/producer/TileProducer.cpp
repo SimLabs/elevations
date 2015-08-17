@@ -175,7 +175,7 @@ public:
                 TaskGraph::TaskIterator i = parent->getLastTasks();
                 while (i.hasNext()) {
                     ptr<Task> t = i.next();
-                    if (t != this) {
+                    if (t.get() != this) {
                         parent->removeTask(t);
                     }
                 }
