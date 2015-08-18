@@ -42,6 +42,15 @@ namespace elevations
 					rotation_matrix[2][0], rotation_matrix[2][1], rotation_matrix[2][2] };
 				elevation_producer_ = manager->loadResource(getParameter(descriptor, element, "cpuElevations")).cast<proland::CPUElevationProducer>();
 			}
+
+			virtual void doRelease() override
+			{
+				if (manager != nullptr)
+				{
+					manager->close();
+				}
+				delete this;
+			}
 		};
 
 		extern const char HEIGHT_LAYER_STRING[] = "heightLayer";

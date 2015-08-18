@@ -194,8 +194,8 @@
     </node>
   </node>
 
-  <basicViewHandler name="viewHandler" viewManager="resourceContainer"/>
-  <cubeMapper name="cubeMapper" face1="heightLayer1" face2="heightLayer2" face3="heightLayer3" face4="heightLayer4" face5="heightLayer5" face6="heightLayer6"/>
-  <resourceContainer name="resourceContainer" view="viewHandler" radius="6360000.0" cubeMapper="cubeMapper"/>
+  <basicViewHandler name="viewHandler" viewManager="viewManager"/>
+  <latLonConverter name="cubeMapper" radius="6360000.0" face1="heightLayer1" face2="heightLayer2" face3="heightLayer3" face4="heightLayer4" face5="heightLayer5" face6="heightLayer6"/>
+  <viewManager name="viewManager" view="viewHandler" radius="6360000.0"/>
 
 </archive>

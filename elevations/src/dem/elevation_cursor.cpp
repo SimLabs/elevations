@@ -34,7 +34,7 @@ bool elevation_cursor::set_location_task::run()
 {
 	elevation_cursor_->lat_lon_ = lat_lon_;
 	elevation_cursor_->current_height_ = 0.0f;
-	elevation_cursor_->location_ = elevation_cursor_->cube_mapper_->to_location(lat_lon_);
+	elevation_cursor_->location_ = elevation_cursor_->lat_lon_converter_->to_location(lat_lon_);
 
 	add_subtask(new get_height_task(get_location(), elevation_cursor_, getDeadline()));
 
@@ -92,15 +92,15 @@ void elevation_cursor::get_height_task::setIsDone(bool done, unsigned t, reason 
 	Task::setIsDone(done, t, r);
 }
 
-elevation_cursor::elevation_cursor(ptr<elevations::dem::cube_mapper> cube_mapper)
+elevation_cursor::elevation_cursor(ptr<elevations::dem::lat_lon_converter> lat_lon_converter)
 	: Object("ElevationCursor")
 	, lat_lon_()
 	, current_height_(0.0f)
-	, cube_mapper_(cube_mapper)
+	, lat_lon_converter_(lat_lon_converter)
 	, task_graph_(new TaskGraph())
 {
-	assert(cube_mapper != nullptr);
-	location_ = cube_mapper_->to_location(lat_lon_);
+	assert(lat_lon_converter != nullptr);
+	location_ = lat_lon_converter_->to_location(lat_lon_);
 }
 
 void elevation_cursor::set_position(const elevations::math::lat_lon_d& lat_lon)

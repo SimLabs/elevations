@@ -9,7 +9,7 @@
 #include <ork/core/Timer.h>
 #include <proland/ui/BasicViewHandler.h>
 
-#include "resource/resource_container.h"
+#include "ui/view_manager.h"
 
 namespace elevations
 {
@@ -47,7 +47,7 @@ namespace elevations
 			explicit gl_widget(QWidget* parent = nullptr);
 			virtual ~gl_widget();
 
-			void init(const resource::resource_container* container);
+			void init(const view_manager* container);
 
 		public Q_SLOTS:
 			void updateGL() override;
@@ -69,7 +69,7 @@ namespace elevations
 			std::pair<double, double> time_;			
 			bool damaged_;
 
-			resource::resource_container* resource_container_;
+			view_manager* resource_container_;
 
 			ptr<proland::BasicViewHandler> get_view_handler() const;
 		};

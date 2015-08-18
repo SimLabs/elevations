@@ -2,7 +2,7 @@
 
 #include <proland/dem/CPUElevationProducer.h>
 
-#include "dem/cube_mapper.h"
+#include "dem/lat_lon_converter.h"
 
 namespace elevations
 {
@@ -53,7 +53,7 @@ namespace elevations
 			};
 
 		public:
-			explicit elevation_cursor(ptr<cube_mapper> cube_mapper);
+			explicit elevation_cursor(ptr<lat_lon_converter> lat_lon_converter_);
 
 			void set_position(const math::lat_lon_d& lat_lon);
 			double get_current_height() const;
@@ -63,7 +63,7 @@ namespace elevations
 			math::lat_lon_d lat_lon_;
 			double current_height_;
 			
-			ptr<cube_mapper> cube_mapper_;			
+			ptr<lat_lon_converter> lat_lon_converter_;			
 			ptr<TaskGraph> task_graph_;
 			ptr<location> location_;
 

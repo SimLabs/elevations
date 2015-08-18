@@ -13,10 +13,10 @@ namespace elevations
 {
 	namespace dem
 	{
-		class cube_mapper : public Object
+		class lat_lon_converter : public Object
 		{
 		public:
-			explicit cube_mapper(float radius = 1.0f);
+			explicit lat_lon_converter(float radius = 1.0f);
 			void init(float radius);
 
 			ptr<location> to_location(const math::lat_lon_d& lat_lon) const;
@@ -28,7 +28,7 @@ namespace elevations
 			static const size_t FACES_NUMBER = 6;
 			std::array<ptr<producer::height_layer>, FACES_NUMBER> height_layers_;
 
-			void swap(ptr<cube_mapper> other);
+			void swap(ptr<lat_lon_converter> other);
 		};
 	} // digital elevation model
 } // project namespace

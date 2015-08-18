@@ -1,7 +1,41 @@
+#include <ork/resource/XMLResourceLoader.h>
+#include <ork/core/FileLogger.h>
+#include <proland/TerrainPlugin.h>
+
 #include "ui/main_window.h"
 #include "dem/elevation_cursor.h"
 
 using namespace elevations;
+using std::string;
+
+ptr<ResourceManager> create_resource_manager(const string& path,
+	const string& filename,
+	const string& log_filename = "log.html",
+	size_t cache_size = 8)
+{
+	proland::initTerrainPlugin();
+
+	auto out = new FileLogger::File(log_filename);
+	Logger::DEBUG_LOGGER = new FileLogger("DEBUG", out, Logger::DEBUG_LOGGER);
+	Logger::INFO_LOGGER = new FileLogger("INFO", out, Logger::INFO_LOGGER);
+	Logger::WARNING_LOGGER = new FileLogger("WARNING", out, Logger::WARNING_LOGGER);
+	Logger::ERROR_LOGGER = new FileLogger("ERROR", out, Logger::ERROR_LOGGER);
+
+	ptr<XMLResourceLoader> resource_loader = new XMLResourceLoader();
+	resource_loader->addPath(path);
+	resource_loader->addArchive(filename);
+
+	return new ResourceManager(resource_loader, cache_size);
+}
+
+template <typename T>
+ptr<T> load_resource(ptr<ResourceManager> resource_manager, const string& resource_name)
+{
+	return resource_manager->loadResource(resource_name).cast<T>();
+}
+
+static static_ptr<ui::view_manager> view_manager;
+static static_ptr<dem::lat_lon_converter> lat_lon_converter;
 
 int main(int argc, char *argv[])
 {
@@ -10,10 +44,13 @@ int main(int argc, char *argv[])
 	window.show();
 	auto widget = window.get_gl_widget();
 
-	auto container = resource::resource_container::load_resource_container("Resources", "Resources/terrainDemo.xml");	
-	widget->init(container.get());
+	auto resource_manager = create_resource_manager("Resources", "Resources/terrainDemo.xml");
+	view_manager = load_resource<ui::view_manager>(resource_manager, "viewManager");
+	lat_lon_converter = load_resource<dem::lat_lon_converter>(resource_manager, "cubeMapper");
 
-	ptr<dem::elevation_cursor> cursor = new dem::elevation_cursor(container->get_cube_mapper());
+	widget->init(view_manager.get());
+
+	ptr<dem::elevation_cursor> cursor = new dem::elevation_cursor(lat_lon_converter);
 	cursor->set_position(math::lat_lon_d(0, 0));
 	cursor->leave_request(4);
 	cursor->leave_request(7);

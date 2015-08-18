@@ -21,9 +21,9 @@ gl_widget::~gl_widget()
 	Object::exit();
 }
 
-void gl_widget::init(const elevations::resource::resource_container* container)
+void gl_widget::init(const elevations::ui::view_manager* container)
 {
-	resource_container_ = const_cast<resource::resource_container*>(container);
+	resource_container_ = const_cast<view_manager*>(container);
 }
 
 void gl_widget::updateGL()

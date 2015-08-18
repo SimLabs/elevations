@@ -59,19 +59,19 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\resource\resource_container.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\producer\height_layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dem\cube_mapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dem\elevation_cursor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dem\location.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\view_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dem\lat_lon_converter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,22 +93,22 @@
     <ClInclude Include="GeneratedFiles\ui_main_window.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\resource\resource_container.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\producer\height_layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\math\lat_lon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dem\cube_mapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\dem\elevation_cursor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dem\location.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\view_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dem\lat_lon_converter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
