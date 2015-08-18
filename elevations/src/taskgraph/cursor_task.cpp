@@ -2,7 +2,7 @@
 
 using elevations::taskgraph::cursor_task;
 
-cursor_task::cursor_task(ptr<elevations::dem::elevation_cursor::cursor_state> cursor_state, ptr<TaskGraph> task_graph, const char* type, unsigned deadline)
+cursor_task::cursor_task(elevations::dem::elevation_cursor::cursor_state& cursor_state, ptr<TaskGraph> task_graph, const char* type, unsigned deadline)
 	: Task(type, false, deadline)
 	, cursor_state_(cursor_state)
 	, task_graph_(task_graph)
@@ -10,6 +10,12 @@ cursor_task::cursor_task(ptr<elevations::dem::elevation_cursor::cursor_state> cu
 	assert(task_graph_ != nullptr);
 	task_graph_->addTask(this);
 	reschedule();
+}
+
+void cursor_task::setIsDone(bool done, unsigned t, reason r)
+{
+	task_graph_ = nullptr;
+	Task::setIsDone(done, t, r);
 }
 
 void cursor_task::add_subtask(ptr<Task> task)
@@ -22,5 +28,5 @@ void cursor_task::add_subtask(ptr<Task> task)
 
 void cursor_task::reschedule() const
 {
-	cursor_state_->location_->schedule(task_graph_);
+	cursor_state_.location_.schedule(task_graph_);
 }

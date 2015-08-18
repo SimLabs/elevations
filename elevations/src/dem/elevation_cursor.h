@@ -16,10 +16,10 @@ namespace elevations
 
 	namespace dem
 	{
-		class elevation_cursor : public Object
+		class elevation_cursor
 		{
 		public:
-			class cursor_state : public Object
+			class cursor_state
 			{
 			public:
 				explicit cursor_state(ptr<lat_lon_converter> lat_lon_converter);
@@ -28,7 +28,7 @@ namespace elevations
 				math::lat_lon_d lat_lon_;
 				double current_height_;
 
-				ptr<location> location_;
+				location location_;
 
 				friend class elevation_cursor;
 				friend class taskgraph::cursor_task;
@@ -37,16 +37,18 @@ namespace elevations
 				friend class taskgraph::get_height_task;
 			};
 
-			explicit elevation_cursor(ptr<lat_lon_converter> lat_lon_converter_);
+			explicit elevation_cursor(lat_lon_converter* lat_lon_converter_);
+			virtual ~elevation_cursor();
 
 			void set_position(const math::lat_lon_d& lat_lon);
 			double get_current_height() const;
 			void leave_request(size_t level);
 
 		private:
-			ptr<lat_lon_converter> lat_lon_converter_;
-			ptr<TaskGraph> task_graph_;
-			ptr<cursor_state> cursor_state_;
+			cursor_state cursor_state_;
+
+			lat_lon_converter* lat_lon_converter_;
+			TaskGraph* task_graph_;
 		};
 	} // digital elevation model
 } // project namespace

@@ -11,11 +11,12 @@ namespace elevations
 		class cursor_task : public Task
 		{
 		protected:
-			cursor_task(ptr<dem::elevation_cursor::cursor_state> cursor_state, ptr<TaskGraph> task_graph, const char* type, unsigned deadline = 0);
+			cursor_task(dem::elevation_cursor::cursor_state& cursor_state, ptr<TaskGraph> task_graph, const char* type, unsigned deadline = 0);
 
+			virtual void setIsDone(bool done, unsigned int t, reason r = DATA_NEEDED) override;
 			void add_subtask(ptr<Task> task);
 
-			ptr<dem::elevation_cursor::cursor_state> cursor_state_;
+			dem::elevation_cursor::cursor_state& cursor_state_;
 			ptr<TaskGraph> task_graph_;
 
 		private:

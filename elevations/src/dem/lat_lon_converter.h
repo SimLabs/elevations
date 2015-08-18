@@ -19,7 +19,7 @@ namespace elevations
 			explicit lat_lon_converter(float radius = 1.0f);
 			void init(float radius);
 
-			ptr<location> to_location(const math::lat_lon_d& lat_lon) const;
+			location to_location(const math::lat_lon_d& lat_lon) const;
 
 		private:
 			ptr<proland::SphericalDeformation> spherical_deformation_;			

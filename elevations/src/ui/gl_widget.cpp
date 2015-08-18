@@ -9,7 +9,7 @@ gl_widget::gl_widget(QWidget* parent)
 	, q_timer_(details::gl_timer(this))
 	, time_(std::make_pair(0.0, 0.0))
 	, damaged_(false)
-	, resource_container_(nullptr)
+	, view_manager_(nullptr)
 {
 	connect(&q_timer_, SIGNAL(timeout()), this, SLOT(updateGL()));
 	q_timer_.start();
@@ -17,20 +17,20 @@ gl_widget::gl_widget(QWidget* parent)
 
 gl_widget::~gl_widget()
 {
-	resource_container_ = nullptr;
+	view_manager_ = nullptr;
 	Object::exit();
 }
 
-void gl_widget::init(const elevations::ui::view_manager* container)
+void gl_widget::init(const elevations::ui::view_manager* view_manager)
 {
-	resource_container_ = const_cast<view_manager*>(container);
+	view_manager_ = const_cast<ui::view_manager*>(view_manager);
 }
 
 void gl_widget::updateGL()
 {	
 	if (damaged_)
 	{
-		resource_container_->update_resources();
+		view_manager_->update_resources();
 		damaged_ = false;
 	}
 	QGLWidget::updateGL();
@@ -128,7 +128,7 @@ void gl_widget::leaveEvent(QEvent* event)
 
 ptr<proland::BasicViewHandler> gl_widget::get_view_handler() const
 {
-	return resource_container_ != nullptr ? resource_container_->get_view_handler() : nullptr;
+	return view_manager_ != nullptr ? view_manager_->get_view_handler() : nullptr;
 }
 
 details::gl_timer::gl_timer(gl_widget* parent, int interval)

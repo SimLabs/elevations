@@ -47,7 +47,7 @@ namespace elevations
 			explicit gl_widget(QWidget* parent = nullptr);
 			virtual ~gl_widget();
 
-			void init(const view_manager* container);
+			void init(const view_manager* view_manager);
 
 		public Q_SLOTS:
 			void updateGL() override;
@@ -69,7 +69,7 @@ namespace elevations
 			std::pair<double, double> time_;			
 			bool damaged_;
 
-			view_manager* resource_container_;
+			view_manager* view_manager_;
 
 			ptr<proland::BasicViewHandler> get_view_handler() const;
 		};

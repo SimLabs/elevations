@@ -58,14 +58,14 @@ void lat_lon_converter::init(float radius)
 	spherical_deformation_ = new proland::SphericalDeformation(radius);
 }
 
-ptr<elevations::dem::location> lat_lon_converter::to_location(const elevations::math::lat_lon_d& lat_lon) const
+elevations::dem::location lat_lon_converter::to_location(const elevations::math::lat_lon_d& lat_lon) const
 {
 	auto cube_face_index = lat_lon.determine_cube_face();
 	assert(cube_face_index != -1);
 
 	auto height_layer = height_layers_[cube_face_index];
 	auto vector = spherical_deformation_->deformedToLocal(height_layer->rotate(lat_lon.to_cartesian()));
-	return new location(vector.x, vector.y, height_layer);
+	return location(vector.x, vector.y, height_layer.get());
 }
 
 void lat_lon_converter::swap(ptr<lat_lon_converter> other)

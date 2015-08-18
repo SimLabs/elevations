@@ -2,9 +2,8 @@
 
 using elevations::dem::location;
 
-location::location(double x, double y, ptr<elevations::producer::height_layer> height_layer)
-	: Object("Location")
-	, x_(x)
+location::location(double x, double y, elevations::producer::height_layer* height_layer)
+	: x_(x)
 	, y_(y)
 	, level_(0)
 	, tx_(0)

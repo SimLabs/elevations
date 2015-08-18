@@ -6,10 +6,10 @@ namespace elevations
 {
 	namespace dem
 	{
-		class location : public Object
+		class location
 		{
 		public:
-			explicit location(double x, double y, ptr<producer::height_layer> height_layer);
+			explicit location(double x, double y, producer::height_layer* height_layer);
 
 			double get_height() const;
 			proland::TileCache::Tile* get_tile(unsigned deadline = 0) const;
@@ -24,7 +24,7 @@ namespace elevations
 			size_t level_;
 			int tx_, ty_;
 
-			ptr<producer::height_layer> height_layer_;
+			producer::height_layer* height_layer_;
 		};
 
 		namespace details

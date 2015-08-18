@@ -35,7 +35,6 @@ ptr<T> load_resource(ptr<ResourceManager> resource_manager, const string& resour
 }
 
 static static_ptr<ui::view_manager> view_manager;
-static static_ptr<dem::lat_lon_converter> lat_lon_converter;
 
 int main(int argc, char *argv[])
 {
@@ -46,14 +45,16 @@ int main(int argc, char *argv[])
 
 	auto resource_manager = create_resource_manager("Resources", "Resources/terrainDemo.xml");
 	view_manager = load_resource<ui::view_manager>(resource_manager, "viewManager");
-	lat_lon_converter = load_resource<dem::lat_lon_converter>(resource_manager, "cubeMapper");
+	auto lat_lon_converter = load_resource<dem::lat_lon_converter>(resource_manager, "cubeMapper");
 
 	widget->init(view_manager.get());
 
-	ptr<dem::elevation_cursor> cursor = new dem::elevation_cursor(lat_lon_converter);
+	auto cursor = new dem::elevation_cursor(lat_lon_converter.get());
 	cursor->set_position(math::lat_lon_d(0, 0));
 	cursor->leave_request(4);
 	cursor->leave_request(7);
+
+	cursor->set_position(math::lat_lon_d(0, 180));
 
 	return application.exec();
 }
