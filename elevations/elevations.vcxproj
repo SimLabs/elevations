@@ -103,6 +103,10 @@
     <ClCompile Include="src\dem\location.cpp" />
     <ClCompile Include="src\producer\height_layer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\taskgraph\cursor_task.cpp" />
+    <ClCompile Include="src\taskgraph\get_height_task.cpp" />
+    <ClCompile Include="src\taskgraph\set_level_task.cpp" />
+    <ClCompile Include="src\taskgraph\set_location_task.cpp" />
     <ClCompile Include="src\ui\view_manager.cpp" />
     <ClCompile Include="src\ui\gl_widget.cpp" />
     <ClCompile Include="src\ui\main_window.cpp" />
@@ -126,6 +130,10 @@
     <ClInclude Include="src\dem\location.h" />
     <ClInclude Include="src\math\lat_lon.h" />
     <ClInclude Include="src\producer\height_layer.h" />
+    <ClInclude Include="src\taskgraph\cursor_task.h" />
+    <ClInclude Include="src\taskgraph\get_height_task.h" />
+    <ClInclude Include="src\taskgraph\set_level_task.h" />
+    <ClInclude Include="src\taskgraph\set_location_task.h" />
     <ClInclude Include="src\ui\view_manager.h" />
     <CustomBuild Include="src\ui\main_window.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

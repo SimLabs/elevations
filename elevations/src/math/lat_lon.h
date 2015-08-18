@@ -45,9 +45,9 @@ namespace elevations
 		public:
 			explicit lat_lon(T latitude = T(), T longitude = T());
 			lat_lon(const lat_lon<T>& other) = default;
-			lat_lon(lat_lon<T>&& other);
 			
-			lat_lon<T>& operator=(lat_lon<T> other);
+			lat_lon<T>& operator=(const lat_lon<T>& other) = default;
+
 			void swap(lat_lon<T>& other);
 
 			vec3<T> to_cartesian() const;
@@ -61,32 +61,24 @@ namespace elevations
 
 		private:
 			T latitude_, longitude_, latitude_radians_, longitude_radians_;
+
+			lat_lon(T latitude, T longitude, T latitude_radians, T longitude_radians);
 		};
 
 		template <typename T>
-		lat_lon<T>::lat_lon(T latitude, T longitude)
+		lat_lon<T>::lat_lon(T latitude, T longitude, T latitude_radians, T longitude_radians)
 			: latitude_(latitude)
 			, longitude_(longitude)
-			, latitude_radians_(details::to_radians(latitude))
-			, longitude_radians_(details::to_radians(longitude))
+			, latitude_radians_(latitude_radians)
+			, longitude_radians_(longitude_radians)
 		{
 			assert(std::abs(latitude_) <= LATITUDE_MAX_VALUE && std::abs(longitude_) <= LONGITUDE_MAX_VALUE);
 		}
 
 		template <typename T>
-		lat_lon<T>::lat_lon(lat_lon<T>&& other)
-			: lat_lon(other.latitude_, other.longitude_)
+		lat_lon<T>::lat_lon(T latitude, T longitude)
+			: lat_lon(latitude, longitude, details::to_radians(latitude), details::to_radians(longitude))
 		{
-		}
-
-		template <typename T>
-		lat_lon<T>& lat_lon<T>::operator=(lat_lon<T> other)
-		{
-			if (this != &other)
-			{
-				swap(other);
-			}
-			return *this;
 		}
 
 		template <typename T>
