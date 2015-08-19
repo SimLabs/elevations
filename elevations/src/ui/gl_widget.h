@@ -57,7 +57,10 @@ namespace elevations
 			void paintGL() override;
 			void resizeGL(int width, int height) override;
 
+			void keyPressEvent(QKeyEvent* event) override;
+			void keyReleaseEvent(QKeyEvent* event) override;
 			void mousePressEvent(QMouseEvent* event) override;
+			void mouseReleaseEvent(QMouseEvent* event) override;
 			void wheelEvent(QWheelEvent* event) override;
 			void mouseMoveEvent(QMouseEvent* event) override;
 
@@ -73,6 +76,13 @@ namespace elevations
 
 			ptr<proland::BasicViewHandler> get_view_handler() const;
 		};
+
+		namespace details
+		{
+			EventHandler::key convert_key(int key);
+			EventHandler::button convert_button(int button);
+			EventHandler::modifier convert_modifier(int modifier);
+		} // utils
 	} // QT user interface
 } // project namespace
 

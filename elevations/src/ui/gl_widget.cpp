@@ -4,6 +4,33 @@
 
 using namespace elevations::ui;
 
+details::gl_timer::gl_timer(gl_widget* parent, int interval)
+	: QTimer(parent)
+	, timer_(Timer())
+{
+	setInterval(interval);
+}
+
+std::pair<double, double> details::gl_timer::end()
+{
+	auto t = timer_.end();
+	dt_ = t - t_;
+	t_ = t;
+	return std::make_pair(t_, dt_);
+}
+
+void details::gl_timer::start(int msec)
+{
+	QTimer::start(msec);
+	timer_.start();
+}
+
+void details::gl_timer::start()
+{
+	QTimer::start();
+	timer_.start();
+}
+
 gl_widget::gl_widget(QWidget* parent)
 	: QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
 	, q_timer_(details::gl_timer(this))
@@ -82,14 +109,53 @@ void gl_widget::resizeGL(int width, int height)
 	}
 }
 
+void gl_widget::keyPressEvent(QKeyEvent* event)
+{
+	auto view_handler = get_view_handler();
+	if (view_handler != nullptr)
+	{
+		auto key = details::convert_key(event->key());
+		if (key != 0)
+		{
+			view_handler->specialKey(key, static_cast<EventHandler::modifier>(0), 0, 0);
+		}
+	}
+}
+
+void gl_widget::keyReleaseEvent(QKeyEvent* event)
+{
+	auto view_handler = get_view_handler();
+	if (view_handler != nullptr)
+	{
+		auto key = details::convert_key(event->key());
+		if (key != 0)
+		{
+			view_handler->specialKeyReleased(key, static_cast<EventHandler::modifier>(0), 0, 0);
+		}
+	}
+}
+
 void gl_widget::mousePressEvent(QMouseEvent* event)
 {
 	auto view_handler = get_view_handler();
-	if (view_handler != nullptr && (event->buttons() & Qt::LeftButton))
+	if (view_handler != nullptr && event->buttons())
 	{
-		view_handler->mouseClick(EventHandler::LEFT_BUTTON,
+		view_handler->mouseClick(details::convert_button(event->button()),
 			EventHandler::DOWN,
-			static_cast<EventHandler::modifier>(0),
+			details::convert_modifier(event->modifiers()),
+			event->x(),
+			event->y());
+	}
+}
+
+void gl_widget::mouseReleaseEvent(QMouseEvent* event)
+{
+	auto view_handler = get_view_handler();
+	if (view_handler != nullptr && event->buttons())
+	{
+		view_handler->mouseClick(details::convert_button(event->button()),
+			EventHandler::UP,
+			details::convert_modifier(event->modifiers()),
 			event->x(),
 			event->y());
 	}
@@ -110,7 +176,7 @@ void gl_widget::wheelEvent(QWheelEvent* event)
 void gl_widget::mouseMoveEvent(QMouseEvent* event)
 {
 	auto view_handler = get_view_handler();
-	if (view_handler != nullptr && (event->buttons() & Qt::LeftButton))
+	if (view_handler != nullptr && event->buttons())
 	{
 		view_handler->mouseMotion(event->x(), event->y());
 	}
@@ -131,29 +197,47 @@ ptr<proland::BasicViewHandler> gl_widget::get_view_handler() const
 	return view_manager_ != nullptr ? view_manager_->get_view_handler() : nullptr;
 }
 
-details::gl_timer::gl_timer(gl_widget* parent, int interval)
-	: QTimer(parent)
-	, timer_(Timer())
+EventHandler::key details::convert_key(int key)
 {
-	setInterval(interval);
+	switch (key)
+	{
+	case Qt::Key_Up:
+		return EventHandler::KEY_UP;
+	case Qt::Key_Down:
+		return EventHandler::KEY_DOWN;
+	case Qt::Key_Left:
+		return EventHandler::KEY_LEFT;
+	case Qt::Key_Right:
+		return EventHandler::KEY_RIGHT;
+	case Qt::Key_PageUp:
+		return EventHandler::KEY_PAGE_UP;
+	case Qt::Key_PageDown:
+		return EventHandler::KEY_PAGE_DOWN;
+	default:
+		return static_cast<EventHandler::key>(0);
+	}
 }
 
-std::pair<double, double> details::gl_timer::end()
+EventHandler::button details::convert_button(int button)
 {
-	auto t = timer_.end();
-	dt_ = t - t_;
-	t_ = t;
-	return std::make_pair(t_, dt_);
+	switch (button)
+	{
+	case Qt::LeftButton:
+		return EventHandler::LEFT_BUTTON;
+	case Qt::RightButton:
+		return EventHandler::RIGHT_BUTTON;
+	default:
+		return static_cast<EventHandler::button>(0);
+	}
 }
 
-void details::gl_timer::start(int msec)
+EventHandler::modifier details::convert_modifier(int modifier)
 {
-	QTimer::start(msec);
-	timer_.start();
-}
-
-void details::gl_timer::start()
-{
-	QTimer::start();
-	timer_.start();
+	switch (modifier)
+	{
+	case Qt::CTRL:
+		return EventHandler::CTRL;
+	default:
+		return static_cast<EventHandler::modifier>(0);
+	}
 }
