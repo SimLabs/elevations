@@ -8,6 +8,7 @@ using elevations::dem::elevation_cursor;
 elevation_cursor::cursor_state::cursor_state(ptr<elevations::dem::lat_lon_converter> lat_lon_converter)
 	: lat_lon_()
 	, current_height_(0.0f)
+	, current_level_(0)
 	, location_(lat_lon_converter->to_location(lat_lon_))
 {
 }

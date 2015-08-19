@@ -2,8 +2,9 @@
 
 using elevations::taskgraph::get_height_task;
 
-get_height_task::get_height_task(elevations::dem::elevation_cursor::cursor_state& cursor_state, ptr<TaskGraph> task_graph, unsigned deadline)
+get_height_task::get_height_task(bool forced, elevations::dem::elevation_cursor::cursor_state& cursor_state, ptr<TaskGraph> task_graph, unsigned deadline)
 	: cursor_task(cursor_state, task_graph, "GetHeightTask", deadline)
+	, forced_(forced)
 	, location_(cursor_state.location_)
 {
 	auto tile = location_.get_tile(deadline);
@@ -20,7 +21,12 @@ get_height_task::get_height_task(elevations::dem::elevation_cursor::cursor_state
 
 bool get_height_task::run()
 {
-	cursor_state_.current_height_ = location_.get_height();
+	auto level = location_.get_level();
+	if (forced_ || level > cursor_state_.current_level_)
+	{
+		cursor_state_.current_level_ = level;
+		cursor_state_.current_height_ = location_.get_height();
+	}
 	return true;
 }
 

@@ -50,11 +50,12 @@ int main(int argc, char *argv[])
 	widget->init(view_manager.get());
 
 	auto cursor = new dem::elevation_cursor(lat_lon_converter.get());
-	cursor->set_position(math::lat_lon_d(0, 0));
-	cursor->leave_request(4);
+	cursor->set_position(math::lat_lon_d(27.988056, 86.925278)); // Everest
 	cursor->leave_request(7);
+	cursor->leave_request(10);
 
-	cursor->set_position(math::lat_lon_d(0, 180));
+	cursor->set_position(math::lat_lon_d(59.95, 30.316667)); // Saint-Petersburg
+	cursor->leave_request(5);
 
 	return application.exec();
 }

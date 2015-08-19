@@ -17,7 +17,7 @@ bool set_location_task::run()
 	cursor_state_.current_height_ = 0.0f;
 	cursor_state_.location_ = lat_lon_converter_->to_location(lat_lon_);
 
-	add_subtask(new get_height_task(cursor_state_, task_graph_, getDeadline()));
+	add_subtask(new get_height_task(true, cursor_state_, task_graph_, getDeadline()));
 
 	return true;
 }

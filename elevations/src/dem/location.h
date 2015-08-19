@@ -12,10 +12,13 @@ namespace elevations
 			explicit location(double x, double y, producer::height_layer* height_layer);
 
 			double get_height() const;
+
+			size_t get_level() const;
+			void set_level(size_t level);
+
 			proland::TileCache::Tile* get_tile(unsigned deadline = 0) const;
 			void put_tile() const;
 
-			size_t set_level(size_t level);
 
 			void schedule(ptr<TaskGraph> task_graph) const;
 

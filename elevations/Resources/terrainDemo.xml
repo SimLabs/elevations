@@ -37,7 +37,7 @@
   <residualProducer name="groundResiduals6" cache="groundResiduals" file="DEM6.dat" delta="2"/>
 
   <tileCache name="groundElevationsCPU" scheduler="defaultScheduler">
-    <cpuFloatTileStorage tileSize="197" channels="1" capacity="1024"/>
+    <cpuFloatTileStorage tileSize="101" channels="1" capacity="1024"/>
   </tileCache>
   <cpuElevationProducer name="cpuElevations1" cache="groundElevationsCPU" residuals="groundResiduals1"/>
   <cpuElevationProducer name="cpuElevations2" cache="groundElevationsCPU" residuals="groundResiduals2"/>
@@ -66,7 +66,7 @@
   </elevationProducer>
   <elevationProducer name="groundElevations6" cache="groundElevations" residuals="groundResiduals6" flip="true">
     <heightLayer name="heightLayer6" cpuElevations="cpuElevations6" rotatex="180"/>
-   </elevationProducer>
+  </elevationProducer>
 
   <tileCache name="groundNormals" scheduler="defaultScheduler">
     <gpuTileStorage tileSize="97" nTiles="512" internalformat="RG8" format="RG" type="FLOAT" min="LINEAR" mag="LINEAR"/>

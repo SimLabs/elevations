@@ -12,10 +12,10 @@ set_level_task::set_level_task(size_t level, elevations::dem::elevation_cursor::
 
 bool set_level_task::run()
 {
-	if (level_ > cursor_state_.location_.set_level(level_))
+	cursor_state_.location_.set_level(level_);
+	if (level_ > cursor_state_.current_level_)
 	{
-		add_subtask(new get_height_task(cursor_state_, task_graph_, getDeadline()));
+		add_subtask(new get_height_task(false, cursor_state_, task_graph_, getDeadline()));
 	}
-
 	return true;
 }
