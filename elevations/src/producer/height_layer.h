@@ -16,7 +16,8 @@ namespace elevations
 			size_t get_min_level() const;
 			size_t get_max_level() const;
 
-			double get_height(size_t level, double x, double y) const;
+			vec2f get_height_with_precision(size_t level, double x, double y) const;
+
 			proland::TileCache::Tile* get_tile(size_t level, int tx, int ty, unsigned deadline) const;
 			proland::TileCache::Tile* find_tile(size_t level, int tx, int ty) const;
 			void put_tile(proland::TileCache::Tile* tile) const;

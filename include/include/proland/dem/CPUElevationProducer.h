@@ -82,6 +82,8 @@ public:
      */
     static float getHeight(ptr<TileProducer> producer, int level, float x, float y);
 
+	static vec2f getHeightWithPrecision(ptr<TileProducer> producer, int level, float x, float y);
+
 protected:
     /**
      * Creates an uninitialized CPUElevationProducer.

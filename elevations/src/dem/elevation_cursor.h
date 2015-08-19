@@ -26,10 +26,11 @@ namespace elevations
 
 			private:
 				math::lat_lon_d lat_lon_;
-				double current_height_;
-				size_t current_level_;
-
 				location location_;
+
+				double height_;
+				double precision_;
+				size_t level_;				
 
 				friend class elevation_cursor;
 				friend class taskgraph::cursor_task;

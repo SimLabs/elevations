@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 	cursor->leave_request(10);
 
 	cursor->set_position(math::lat_lon_d(59.95, 30.316667)); // Saint-Petersburg
-	cursor->leave_request(5);
+	cursor->leave_request(10);
 
 	return application.exec();
 }

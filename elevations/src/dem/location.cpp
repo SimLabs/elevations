@@ -14,9 +14,10 @@ location::location(double x, double y, elevations::producer::height_layer* heigh
 	set_level(height_layer_->get_min_level());
 }
 
-double location::get_height() const
+vec2d location::get_height_with_precision() const
 {
-	return height_layer_->get_height(level_, x_, y_);
+	auto result = height_layer_->get_height_with_precision(level_, x_, y_);
+	return vec2d(result.x, result.y);
 }
 
 size_t location::get_level() const

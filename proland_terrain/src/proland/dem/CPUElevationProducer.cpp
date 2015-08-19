@@ -103,38 +103,55 @@ bool CPUElevationProducer::prefetchTile(int level, int tx, int ty)
 
 float CPUElevationProducer::getHeight(ptr<TileProducer> producer, int level, float x, float y)
 {
-    float levelTileSize = producer->getRootQuadSize() / (1 << level);
-    float s = producer->getRootQuadSize() / 2.0f;
-    if (x <= -s || x >= s || y <= -s || y >= s) {
-        return 0;
-    }
-    x += s;
-    y += s;
+	return getHeightWithPrecision(producer, level, x, y).x;
+}
 
-    int tx = (int) floor(x / levelTileSize);
-    int ty = (int) floor(y / levelTileSize);
+vec2f CPUElevationProducer::getHeightWithPrecision(ptr<TileProducer> producer, int level, float x, float y)
+{
+	float levelTileSize = producer->getRootQuadSize() / (1 << level);
+	float s = producer->getRootQuadSize() / 2.0f;
+	if (x <= -s || x >= s || y <= -s || y >= s) {
+		return vec2f();
+	}
+	x += s;
+	y += s;
 
-    int tileWidth = producer->getCache()->getStorage()->getTileSize();
-    int tileSize = tileWidth - 5;
+	int tx = (int)floor(x / levelTileSize);
+	int ty = (int)floor(y / levelTileSize);
 
-    TileCache::Tile *t = producer->findTile(level, tx, ty);;
+	int tileWidth = producer->getCache()->getStorage()->getTileSize();
+	int tileSize = tileWidth - 5;
 
-    if (t == NULL) {
-        if (Logger::INFO_LOGGER != NULL) {
-            Logger::INFO_LOGGER->logf("DEM", "Missing CPUElevation tile [%d:%d:%d] (coord %f:%f)", level, tx, ty, x, y);
-        }
-        return 0;
-    }
-    assert(t != NULL);
-    CPUTileStorage<float>::CPUSlot *slot = dynamic_cast<CPUTileStorage<float>::CPUSlot*>(t->getData());
-    assert(slot != NULL);
-    float *tile = slot->data;
-    x = 2.0f + (fmod(x, levelTileSize) / levelTileSize) * tileSize;
-    y = 2.0f + (fmod(y, levelTileSize) / levelTileSize) * tileSize;
-    int sx = (int) floor(x);
-    int sy = (int) floor(y);
+	TileCache::Tile *t = producer->findTile(level, tx, ty);;
 
-    return tile[sx + sy * tileWidth];
+	if (t == NULL) {
+		if (Logger::INFO_LOGGER != NULL) {
+			Logger::INFO_LOGGER->logf("DEM", "Missing CPUElevation tile [%d:%d:%d] (coord %f:%f)", level, tx, ty, x, y);
+		}
+		return vec2f();
+	}
+	assert(t != NULL);
+	CPUTileStorage<float>::CPUSlot *slot = dynamic_cast<CPUTileStorage<float>::CPUSlot*>(t->getData());
+	assert(slot != NULL);
+	float *tile = slot->data;
+	x = 2.0f + (fmod(x, levelTileSize) / levelTileSize) * tileSize;
+	y = 2.0f + (fmod(y, levelTileSize) / levelTileSize) * tileSize;
+	int sx = (int)floor(x);
+	int sy = (int)floor(y);
+
+	float min = FLT_MAX;
+	float max = -FLT_MAX;
+	for (size_t i = 0; i < tileSize; ++i)
+	{
+		for (size_t j = 0; j < tileSize; ++j)
+		{
+			float value = tile[(2 + i) + (2 + j) * tileWidth];
+			min = value < min ? value : min;
+			max = value > max ? value : max;
+		}
+	}
+
+	return vec2f(tile[sx + sy * tileWidth], abs(max - min) / 2);
 }
 
 ptr<Task> CPUElevationProducer::startCreateTile(int level, int tx, int ty, unsigned int deadline, ptr<Task> task, ptr<TaskGraph> owner)

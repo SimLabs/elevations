@@ -7,9 +7,10 @@ using elevations::dem::elevation_cursor;
 
 elevation_cursor::cursor_state::cursor_state(ptr<elevations::dem::lat_lon_converter> lat_lon_converter)
 	: lat_lon_()
-	, current_height_(0.0f)
-	, current_level_(0)
 	, location_(lat_lon_converter->to_location(lat_lon_))
+	, height_(0.0f)
+	, precision_(0.0f)
+	, level_(0)
 {
 }
 
@@ -32,7 +33,7 @@ void elevation_cursor::set_position(const elevations::math::lat_lon_d& lat_lon)
 
 double elevation_cursor::get_current_height() const
 {
-	return cursor_state_.current_height_;
+	return cursor_state_.height_;
 }
 
 void elevation_cursor::leave_request(size_t level)

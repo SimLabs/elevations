@@ -14,7 +14,7 @@ set_location_task::set_location_task(const elevations::math::lat_lon_d& lat_lon,
 bool set_location_task::run()
 {
 	cursor_state_.lat_lon_ = lat_lon_;
-	cursor_state_.current_height_ = 0.0f;
+	cursor_state_.height_ = 0.0f;
 	cursor_state_.location_ = lat_lon_converter_->to_location(lat_lon_);
 
 	add_subtask(new get_height_task(true, cursor_state_, task_graph_, getDeadline()));

@@ -77,9 +77,9 @@ size_t height_layer::get_max_level() const
 	return elevation_producer_->getMaxLevel();
 }
 
-double height_layer::get_height(size_t level, double x, double y) const
+vec2f height_layer::get_height_with_precision(size_t level, double x, double y) const
 {
-	return proland::CPUElevationProducer::getHeight(elevation_producer_, level, x, y);
+	return proland::CPUElevationProducer::getHeightWithPrecision(elevation_producer_, level, x, y);
 }
 
 proland::TileCache::Tile* height_layer::get_tile(size_t level, int tx, int ty, unsigned deadline) const

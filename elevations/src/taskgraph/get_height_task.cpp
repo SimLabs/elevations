@@ -22,10 +22,12 @@ get_height_task::get_height_task(bool forced, elevations::dem::elevation_cursor:
 bool get_height_task::run()
 {
 	auto level = location_.get_level();
-	if (forced_ || level > cursor_state_.current_level_)
+	if (forced_ || level > cursor_state_.level_)
 	{
-		cursor_state_.current_level_ = level;
-		cursor_state_.current_height_ = location_.get_height();
+		auto vector = location_.get_height_with_precision();
+		cursor_state_.height_ = vector.x;
+		cursor_state_.precision_ = vector.y;
+		cursor_state_.level_ = level;
 	}
 	return true;
 }
