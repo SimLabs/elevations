@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
 	auto resource_manager = create_resource_manager("Resources", "Resources/terrainDemo.xml");
 	view_manager = load_resource<ui::view_manager>(resource_manager, "viewManager");
-	auto lat_lon_converter = load_resource<dem::lat_lon_converter>(resource_manager, "cubeMapper");
+	auto lat_lon_converter = load_resource<dem::lat_lon_converter>(resource_manager, "latLonConverter");
 
 	widget->init(view_manager.get());
 
