@@ -16,7 +16,7 @@ namespace elevations
 
 	namespace dem
 	{
-		class QUERIES_API elevation_cursor
+		class QUERIES_API elevation_cursor : public Object
 		{
 		public:
 			class QUERIES_API cursor_state

@@ -15,7 +15,8 @@ elevation_cursor::cursor_state::cursor_state(ptr<elevations::dem::lat_lon_conver
 }
 
 elevation_cursor::elevation_cursor(elevations::dem::lat_lon_converter* lat_lon_converter)
-	: cursor_state_(cursor_state(lat_lon_converter))
+	: Object("ElevationCursor")
+	, cursor_state_(cursor_state(lat_lon_converter))
 	, lat_lon_converter_(lat_lon_converter)
 	, task_graph_(new TaskGraph())
 {	
@@ -23,7 +24,6 @@ elevation_cursor::elevation_cursor(elevations::dem::lat_lon_converter* lat_lon_c
 
 elevation_cursor::~elevation_cursor()
 {
-	TaskGraph::release(task_graph_);
 }
 
 void elevation_cursor::set_position(const elevations::math::lat_lon_d& lat_lon)
