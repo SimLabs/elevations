@@ -10,6 +10,10 @@ set_level_task::set_level_task(size_t level, elevations::dem::elevation_cursor::
 {
 }
 
+set_level_task::~set_level_task()
+{
+}
+
 bool set_level_task::run()
 {
 	cursor_state_.location_.set_level(level_);

@@ -19,6 +19,10 @@ get_height_task::get_height_task(bool forced, elevations::dem::elevation_cursor:
 	}
 }
 
+get_height_task::~get_height_task()
+{
+}
+
 bool get_height_task::run()
 {
 	auto level = location_.get_level();

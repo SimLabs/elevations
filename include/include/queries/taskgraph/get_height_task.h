@@ -10,6 +10,8 @@ namespace elevations
 		{
 		public:
 			get_height_task(bool forced, dem::elevation_cursor::cursor_state& cursor_state, ptr<TaskGraph> task_graph, unsigned deadline = 0);
+			virtual ~get_height_task();
+
 			bool run() override;
 			void setIsDone(bool done, unsigned int t, reason r = DATA_NEEDED) override;
 

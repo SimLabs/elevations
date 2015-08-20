@@ -12,6 +12,10 @@ cursor_task::cursor_task(elevations::dem::elevation_cursor::cursor_state& cursor
 	reschedule();
 }
 
+cursor_task::~cursor_task()
+{
+}
+
 void cursor_task::setIsDone(bool done, unsigned t, reason r)
 {
 	task_graph_ = nullptr;

@@ -30,6 +30,8 @@
 
 #include "proland/producer/TileProducer.h"
 
+#include <ork/math/mat3.h>
+
 namespace proland
 {
 
@@ -52,6 +54,8 @@ public:
      *      of the size of the elevation tiles (without borders).
      */
     CPUElevationProducer(ptr<TileCache> cache, ptr<TileProducer> residualTiles);
+
+	CPUElevationProducer(ptr<TileCache> cache, ptr<TileProducer> residualTiles, mat3d rotationMatrix);
 
     /**
      * Deletes this CPUElevationProducer.
@@ -84,6 +88,10 @@ public:
 
 	static vec2f getHeightWithPrecision(ptr<TileProducer> producer, int level, float x, float y);
 
+	vec3d rotate(const vec3d& vector) const;
+
+	void schedule(ptr<TaskGraph> taskGraph);
+
 protected:
     /**
      * Creates an uninitialized CPUElevationProducer.
@@ -102,6 +110,8 @@ protected:
      */
     void init(ptr<TileCache> cache, ptr<TileProducer> residualTiles);
 
+	void init(ptr<TileCache> cache, ptr<TileProducer> residualTiles, mat3d rotationMatrix);
+
     virtual ptr<Task> startCreateTile(int level, int tx, int ty, unsigned int deadline, ptr<Task> task, ptr<TaskGraph> owner);
 
     virtual void beginCreateTile();
@@ -112,7 +122,7 @@ protected:
 
     virtual void stopCreateTile(int level, int tx, int ty);
 
-    virtual void swap(ptr<CPUElevationProducer> p);
+    virtual void swap(ptr<CPUElevationProducer> p);	
 
 private:
     /**
@@ -122,6 +132,8 @@ private:
      * (without borders).
      */
     ptr<TileProducer> residualTiles;
+
+	mat3d rotationMatrix;
 };
 
 }

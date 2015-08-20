@@ -294,7 +294,6 @@
     <ClInclude Include="include\queries\dem\lat_lon_converter.h" />
     <ClInclude Include="include\queries\dem\location.h" />
     <ClInclude Include="include\queries\math\lat_lon.h" />
-    <ClInclude Include="include\queries\producer\height_layer.h" />
     <ClInclude Include="include\queries\taskgraph\cursor_task.h" />
     <ClInclude Include="include\queries\taskgraph\get_height_task.h" />
     <ClInclude Include="include\queries\taskgraph\set_level_task.h" />

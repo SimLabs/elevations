@@ -81,7 +81,6 @@
     <ClCompile Include="src\dem\elevation_cursor.cpp" />
     <ClCompile Include="src\dem\lat_lon_converter.cpp" />
     <ClCompile Include="src\dem\location.cpp" />
-    <ClCompile Include="src\producer\height_layer.cpp" />
     <ClCompile Include="src\taskgraph\cursor_task.cpp" />
     <ClCompile Include="src\taskgraph\get_height_task.cpp" />
     <ClCompile Include="src\taskgraph\set_level_task.cpp" />

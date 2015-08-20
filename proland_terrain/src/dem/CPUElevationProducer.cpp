@@ -32,6 +32,7 @@
 #include "ork/core/Logger.h"
 #include "ork/resource/ResourceTemplate.h"
 #include "ork/taskgraph/TaskGraph.h"
+#include "ork/math/mat4.h"
 #include "proland/producer/CPUTileStorage.h"
 #include "proland/dem/ResidualProducer.h"
 
@@ -41,9 +42,13 @@ using namespace ork;
 namespace proland
 {
 
-CPUElevationProducer::CPUElevationProducer(ptr<TileCache> cache, ptr<TileProducer> residualTiles) : TileProducer("CPUElevationProducer", "CreateCPUElevationTile")
+CPUElevationProducer::CPUElevationProducer(ptr<TileCache> cache, ptr<TileProducer> residualTiles) : CPUElevationProducer(cache, residualTiles, mat3d::IDENTITY)
 {
-    init(cache, residualTiles);
+}
+
+CPUElevationProducer::CPUElevationProducer(ptr<TileCache> cache, ptr<TileProducer> residualTiles, mat3d rotationMatrix) : CPUElevationProducer()
+{
+	init(cache, residualTiles, rotationMatrix);
 }
 
 CPUElevationProducer::CPUElevationProducer() : TileProducer("CPUElevationProducer", "CreateCPUElevationTile")
@@ -52,8 +57,14 @@ CPUElevationProducer::CPUElevationProducer() : TileProducer("CPUElevationProduce
 
 void CPUElevationProducer::init(ptr<TileCache> cache, ptr<TileProducer> residualTiles)
 {
+	init(cache, residualTiles, mat3d::IDENTITY);
+}
+
+void CPUElevationProducer::init(ptr<TileCache> cache, ptr<TileProducer> residualTiles, mat3d rotationMatrix)
+{
     TileProducer::init(cache, true);
     this->residualTiles = residualTiles;
+	this->rotationMatrix = rotationMatrix;
 }
 
 CPUElevationProducer::~CPUElevationProducer()
@@ -152,6 +163,16 @@ vec2f CPUElevationProducer::getHeightWithPrecision(ptr<TileProducer> producer, i
 	}
 
 	return vec2f(tile[sx + sy * tileWidth], abs(max - min) / 2);
+}
+
+vec3d CPUElevationProducer::rotate(const vec3d& vector) const
+{
+	return rotationMatrix * vector;
+}
+
+void CPUElevationProducer::schedule(ptr<TaskGraph> taskGraph)
+{
+	getCache()->getScheduler()->schedule(taskGraph);
 }
 
 ptr<Task> CPUElevationProducer::startCreateTile(int level, int tx, int ty, unsigned int deadline, ptr<Task> task, ptr<TaskGraph> owner)
@@ -301,6 +322,7 @@ void CPUElevationProducer::swap(ptr<CPUElevationProducer> p)
 {
     TileProducer::swap(p);
     std::swap(residualTiles, p->residualTiles);
+	std::swap(rotationMatrix, p->rotationMatrix);
 }
 
 class CPUElevationProducerResource : public ResourceTemplate<3, CPUElevationProducer>
@@ -312,10 +334,34 @@ public:
         e = e == NULL ? desc->descriptor : e;
         ptr<TileCache> cache;
         ptr<TileProducer> residuals;
-        checkParameters(desc, e, "name,cache,residuals,");
+        checkParameters(desc, e, "name,cache,residuals,rotatex,rotatey,rotatez,");
         cache = manager->loadResource(getParameter(desc, e, "cache")).cast<TileCache>();
         residuals = manager->loadResource(getParameter(desc, e, "residuals")).cast<TileProducer>();
-        init(cache, residuals);
+
+		auto rotationMatrix = mat4d::IDENTITY;
+		if (e->Attribute("rotatex") != nullptr)
+		{
+			float angle;
+			getFloatParameter(desc, e, "rotatex", &angle);
+			rotationMatrix = rotationMatrix * mat4d::rotatex(angle);
+		}
+		if (e->Attribute("rotatey") != nullptr)
+		{
+			float angle;
+			getFloatParameter(desc, e, "rotatey", &angle);
+			rotationMatrix = rotationMatrix * mat4d::rotatey(angle);
+		}
+		if (e->Attribute("rotatez") != nullptr)
+		{
+			float angle;
+			getFloatParameter(desc, e, "rotatez", &angle);
+			rotationMatrix = rotationMatrix * mat4d::rotatez(angle);
+		}
+		rotationMatrix = rotationMatrix.inverse();
+
+		 init(cache, residuals, { rotationMatrix[0][0], rotationMatrix[0][1], rotationMatrix[0][2],
+			 rotationMatrix[1][0], rotationMatrix[1][1], rotationMatrix[1][2],
+			 rotationMatrix[2][0], rotationMatrix[2][1], rotationMatrix[2][2] });
     }
 };
 

@@ -705,9 +705,6 @@
     <ClInclude Include="include\queries\math\lat_lon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\queries\producer\height_layer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\queries\taskgraph\cursor_task.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -12,6 +12,7 @@ namespace elevations
 		{
 		protected:
 			cursor_task(dem::elevation_cursor::cursor_state& cursor_state, ptr<TaskGraph> task_graph, const char* type, unsigned deadline = 0);
+			virtual ~cursor_task();
 
 			virtual void setIsDone(bool done, unsigned int t, reason r = DATA_NEEDED) override;
 			void add_subtask(ptr<Task> task);

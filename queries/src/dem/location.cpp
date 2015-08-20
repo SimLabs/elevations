@@ -2,21 +2,21 @@
 
 using elevations::dem::location;
 
-location::location(double x, double y, elevations::producer::height_layer* height_layer)
+location::location(double x, double y, proland::CPUElevationProducer* elevation_producer)
 	: x_(x)
 	, y_(y)
 	, level_(0)
 	, tx_(0)
 	, ty_(0)
-	, height_layer_(height_layer)
+	, elevation_producer_(elevation_producer)
 {
-	assert(height_layer_ != nullptr);
-	set_level(height_layer_->get_min_level());
+	assert(elevation_producer_ != nullptr);
+	set_level(elevation_producer_->getMinLevel());
 }
 
 vec2d location::get_height_with_precision() const
 {
-	auto result = height_layer_->get_height_with_precision(level_, x_, y_);
+	auto result = proland::CPUElevationProducer::getHeightWithPrecision(elevation_producer_, level_, x_, y_);
 	return vec2d(result.x, result.y);
 }
 
@@ -27,27 +27,27 @@ size_t location::get_level() const
 
 void location::set_level(size_t level)
 {
-	assert(height_layer_->get_min_level() <= level && level <= height_layer_->get_max_level());
+	assert(elevation_producer_->getMinLevel() <= level && level <= elevation_producer_->getMaxLevel());
 	level_ = level;
 
-	auto quad_size = height_layer_->getRootQuadSize();
+	auto quad_size = elevation_producer_->getRootQuadSize();
 	tx_ = details::physical_to_logical(x_, quad_size, level);
 	ty_ = details::physical_to_logical(y_, quad_size, level);
 }
 
 proland::TileCache::Tile* location::get_tile(unsigned deadline) const
 {
-	return height_layer_->get_tile(level_, tx_, ty_, deadline);
+	return elevation_producer_->getTile(level_, tx_, ty_, deadline);
 }
 
 void location::put_tile() const
 {
-	height_layer_->put_tile(height_layer_->find_tile(level_, tx_, ty_));
+	elevation_producer_->putTile(elevation_producer_->findTile(level_, tx_, ty_));
 }
 
 void location::schedule(ptr<TaskGraph> task_graph) const
 {
-	height_layer_->schedule(task_graph);
+	elevation_producer_->schedule(task_graph);
 }
 
 int elevations::dem::details::physical_to_logical(double value, double quad_size, int level)

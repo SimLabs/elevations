@@ -11,6 +11,10 @@ set_location_task::set_location_task(const elevations::math::lat_lon_d& lat_lon,
 {
 }
 
+set_location_task::~set_location_task()
+{
+}
+
 bool set_location_task::run()
 {
 	cursor_state_.lat_lon_ = lat_lon_;

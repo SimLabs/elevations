@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <queries/producer/height_layer.h>
+#include <proland/dem/CPUElevationProducer.h>
 
 namespace elevations
 {
@@ -9,7 +9,7 @@ namespace elevations
 		class QUERIES_API location
 		{
 		public:
-			explicit location(double x, double y, producer::height_layer* height_layer);
+			explicit location(double x, double y, proland::CPUElevationProducer* elevation_producer);
 
 			vec2d get_height_with_precision() const;
 
@@ -26,7 +26,7 @@ namespace elevations
 			size_t level_;
 			int tx_, ty_;
 
-			producer::height_layer* height_layer_;
+			proland::CPUElevationProducer* elevation_producer_;
 		};
 
 		namespace details
