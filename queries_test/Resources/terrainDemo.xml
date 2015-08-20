@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<archive>
+  <multithreadScheduler name="defaultScheduler" nthreads="3" fps="0"/>
+
+  <tileCache name="groundResiduals" scheduler="defaultScheduler">
+    <cpuFloatTileStorage tileSize="197" channels="1" capacity="1024"/>
+  </tileCache>
+  <residualProducer name="groundResiduals1" cache="groundResiduals" file="DEM1.dat" delta="2"/>
+  <residualProducer name="groundResiduals2" cache="groundResiduals" file="DEM2.dat" delta="2"/>
+  <residualProducer name="groundResiduals3" cache="groundResiduals" file="DEM3.dat" delta="2"/>
+  <residualProducer name="groundResiduals4" cache="groundResiduals" file="DEM4.dat" delta="2"/>
+  <residualProducer name="groundResiduals5" cache="groundResiduals" file="DEM5.dat" delta="2"/>
+  <residualProducer name="groundResiduals6" cache="groundResiduals" file="DEM6.dat" delta="2"/>
+
+  <tileCache name="groundElevationsCPU" scheduler="defaultScheduler">
+    <cpuFloatTileStorage tileSize="101" channels="1" capacity="1024"/>
+  </tileCache>
+  <cpuElevationProducer name="cpuElevations1" cache="groundElevationsCPU" residuals="groundResiduals1"/>
+  <cpuElevationProducer name="cpuElevations2" cache="groundElevationsCPU" residuals="groundResiduals2" rotatex="90"/>
+  <cpuElevationProducer name="cpuElevations3" cache="groundElevationsCPU" residuals="groundResiduals3" rotatex="90" rotatey="90"/>
+  <cpuElevationProducer name="cpuElevations4" cache="groundElevationsCPU" residuals="groundResiduals4" rotatex="90" rotatey="180"/>
+  <cpuElevationProducer name="cpuElevations5" cache="groundElevationsCPU" residuals="groundResiduals5" rotatex="90" rotatey="270"/>
+  <cpuElevationProducer name="cpuElevations6" cache="groundElevationsCPU" residuals="groundResiduals6" rotatex="180"/>
+
+  <terrainNode name="earth1" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+  <terrainNode name="earth2" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+  <terrainNode name="earth3" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+  <terrainNode name="earth4" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+  <terrainNode name="earth5" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+  <terrainNode name="earth6" size="6360000" zmin="0" zmax="10000" deform="sphere" splitFactor="2" maxLevel="20"/>
+
+  <latLonConverter name="latLonConverter" radius="6360000.0"
+                   face1="cpuElevations1" face2="cpuElevations2"
+                   face3="cpuElevations3" face4="cpuElevations4"
+                   face5="cpuElevations5" face6="cpuElevations6"/>
+
+</archive>
