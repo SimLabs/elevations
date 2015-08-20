@@ -9,7 +9,7 @@
 #include <ork/core/Timer.h>
 #include <proland/ui/BasicViewHandler.h>
 
-#include "ui/view_manager.h"
+#include <queries/ui/view_manager.h>
 
 namespace elevations
 {

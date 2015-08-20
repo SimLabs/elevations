@@ -8,7 +8,7 @@ namespace elevations
 {
 	namespace ui
 	{
-		class view_manager : public Object, public proland::ViewManager
+		class QUERIES_API view_manager : public Object, public proland::ViewManager
 		{
 		public:
 			explicit view_manager(float radius = 1.0f, float dr = 1.1f);
@@ -39,5 +39,5 @@ namespace elevations
 
 			bool is_infinity(const vec3<double>& vector);
 		} // utils
-	} //  QT user interface
+	} // user interface
 } // project namespace

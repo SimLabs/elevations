@@ -1,4 +1,4 @@
-﻿#include "ui/view_manager.h"
+﻿#include <queries/ui/view_manager.h>
 
 #include <ork/core/FileLogger.h>
 #include <ork/resource/ResourceTemplate.h>
@@ -49,7 +49,7 @@ namespace elevations
 
 		static ResourceFactory::Type<VIEW_MANAGER_STRING, view_manager_resource> view_manager_type;
 
-	} // QT user interface
+	} // user interface
 } // project namespace
 
 using elevations::ui::view_manager;

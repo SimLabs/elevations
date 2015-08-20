@@ -99,7 +99,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\ui\view_manager.cpp" />
     <ClCompile Include="src\ui\gl_widget.cpp" />
     <ClCompile Include="src\ui\main_window.cpp" />
   </ItemGroup>
@@ -126,7 +125,6 @@
     <ClInclude Include="src\taskgraph\get_height_task.h" />
     <ClInclude Include="src\taskgraph\set_level_task.h" />
     <ClInclude Include="src\taskgraph\set_location_task.h" />
-    <ClInclude Include="src\ui\view_manager.h" />
     <CustomBuild Include="src\ui\main_window.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing main_window.h...</Message>

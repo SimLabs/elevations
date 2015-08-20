@@ -85,6 +85,7 @@
     <ClCompile Include="src\taskgraph\get_height_task.cpp" />
     <ClCompile Include="src\taskgraph\set_level_task.cpp" />
     <ClCompile Include="src\taskgraph\set_location_task.cpp" />
+    <ClCompile Include="src\ui\view_manager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

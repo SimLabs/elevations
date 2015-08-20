@@ -6,11 +6,11 @@ namespace elevations
 {
 	namespace dem
 	{
-		class lat_lon_converter_resource : public ResourceTemplate<120, lat_lon_converter>
+		class lat_lon_converter_resource : public ResourceTemplate<110, lat_lon_converter>
 		{
 		public:
 			lat_lon_converter_resource(const ptr<ResourceManager>& resource_manager, const std::string& name, const ptr<ResourceDescriptor>& descriptor, const TiXmlElement* element = nullptr)
-				: ResourceTemplate<120, lat_lon_converter>(resource_manager, name, descriptor)
+				: ResourceTemplate<110, lat_lon_converter>(resource_manager, name, descriptor)
 			{
 				element = element == nullptr ? descriptor->descriptor : element;
 				checkParameters(descriptor, element, "name,radius,face1,face2,face3,face4,face5,face6,");

@@ -298,6 +298,7 @@
     <ClInclude Include="include\queries\taskgraph\get_height_task.h" />
     <ClInclude Include="include\queries\taskgraph\set_level_task.h" />
     <ClInclude Include="include\queries\taskgraph\set_location_task.h" />
+    <ClInclude Include="include\queries\ui\view_manager.h" />
     <ClInclude Include="include\sched.h" />
     <ClInclude Include="include\stbi\stb_image.h" />
     <ClInclude Include="include\tiff.h" />

@@ -717,5 +717,8 @@
     <ClInclude Include="include\queries\taskgraph\set_location_task.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\queries\ui\view_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
