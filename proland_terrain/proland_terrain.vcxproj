@@ -40,10 +40,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include\include;</IncludePath>
+    <SourcePath>$(VC_SourcePath);$(ProjectDir)src;</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)</OutDir>
     <TargetName>$(ProjectName)d</TargetName>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)include\include;</IncludePath>
+    <SourcePath>$(VC_SourcePath);$(ProjectDir)src;</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -66,7 +70,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>USE_SHARED_PTR;_CRT_SECURE_NO_WARNINGS;PROLAND_API=__declspec(dllexport);ORK_API=__declspec(dllimport);TIXML_USE_STL;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\include\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -76,66 +81,66 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\proland\dem\CPUElevationProducer.cpp" />
-    <ClCompile Include="src\proland\dem\ElevationProducer.cpp" />
-    <ClCompile Include="src\proland\dem\NormalProducer.cpp" />
-    <ClCompile Include="src\proland\dem\ResidualProducer.cpp" />
-    <ClCompile Include="src\proland\math\color.cpp" />
-    <ClCompile Include="src\proland\math\noise.cpp" />
-    <ClCompile Include="src\proland\ortho\EmptyOrthoLayer.cpp" />
-    <ClCompile Include="src\proland\ortho\OrthoCPUProducer.cpp" />
-    <ClCompile Include="src\proland\ortho\OrthoGPUProducer.cpp" />
-    <ClCompile Include="src\proland\ortho\OrthoProducer.cpp" />
-    <ClCompile Include="src\proland\ortho\TextureLayer.cpp" />
-    <ClCompile Include="src\proland\particles\LifeCycleParticleLayer.cpp" />
-    <ClCompile Include="src\proland\particles\ParticleLayer.cpp" />
-    <ClCompile Include="src\proland\particles\ParticleProducer.cpp" />
-    <ClCompile Include="src\proland\particles\ParticleStorage.cpp" />
-    <ClCompile Include="src\proland\particles\RandomParticleLayer.cpp" />
-    <ClCompile Include="src\proland\particles\screen\ParticleGrid.cpp" />
-    <ClCompile Include="src\proland\particles\screen\ScreenParticleLayer.cpp" />
-    <ClCompile Include="src\proland\particles\terrain\FlowTile.cpp" />
-    <ClCompile Include="src\proland\particles\terrain\TerrainParticleLayer.cpp" />
-    <ClCompile Include="src\proland\particles\WorldParticleLayer.cpp" />
-    <ClCompile Include="src\proland\preprocess\terrain\AbstractTileCache.cpp" />
-    <ClCompile Include="src\proland\preprocess\terrain\ApertureMipmap.cpp" />
-    <ClCompile Include="src\proland\preprocess\terrain\ColorMipmap.cpp" />
-    <ClCompile Include="src\proland\preprocess\terrain\HeightMipmap.cpp" />
-    <ClCompile Include="src\proland\preprocess\terrain\Preprocess.cpp" />
-    <ClCompile Include="src\proland\preprocess\terrain\Util.cpp" />
-    <ClCompile Include="src\proland\producer\CPUTileStorage.cpp" />
-    <ClCompile Include="src\proland\producer\GPUTileStorage.cpp" />
-    <ClCompile Include="src\proland\producer\ObjectTileStorage.cpp" />
-    <ClCompile Include="src\proland\producer\TileCache.cpp" />
-    <ClCompile Include="src\proland\producer\TileLayer.cpp" />
-    <ClCompile Include="src\proland\producer\TileProducer.cpp" />
-    <ClCompile Include="src\proland\producer\TileStorage.cpp" />
-    <ClCompile Include="src\proland\TerrainPlugin.cpp" />
-    <ClCompile Include="src\proland\terrain\CylindricalDeformation.cpp" />
-    <ClCompile Include="src\proland\terrain\Deformation.cpp" />
-    <ClCompile Include="src\proland\terrain\DrawTerrainTask.cpp" />
-    <ClCompile Include="src\proland\terrain\ReadbackManager.cpp" />
-    <ClCompile Include="src\proland\terrain\SphericalDeformation.cpp" />
-    <ClCompile Include="src\proland\terrain\TerrainNode.cpp" />
-    <ClCompile Include="src\proland\terrain\TerrainQuad.cpp" />
-    <ClCompile Include="src\proland\terrain\TileSampler.cpp" />
-    <ClCompile Include="src\proland\terrain\TileSamplerZ.cpp" />
-    <ClCompile Include="src\proland\terrain\UpdateTerrainTask.cpp" />
-    <ClCompile Include="src\proland\terrain\UpdateTileSamplersTask.cpp" />
-    <ClCompile Include="src\proland\ui\BasicViewHandler.cpp" />
-    <ClCompile Include="src\proland\ui\EventRecorder.cpp" />
-    <ClCompile Include="src\proland\ui\MousePositionHandler.cpp" />
-    <ClCompile Include="src\proland\ui\SceneVisitor.cpp" />
-    <ClCompile Include="src\proland\ui\twbar\DrawTweakBarTask.cpp" />
-    <ClCompile Include="src\proland\ui\twbar\TweakBarHandler.cpp" />
-    <ClCompile Include="src\proland\ui\twbar\TweakBarManager.cpp" />
-    <ClCompile Include="src\proland\ui\twbar\TweakResource.cpp" />
-    <ClCompile Include="src\proland\ui\twbar\TweakSceneGraph.cpp" />
-    <ClCompile Include="src\proland\ui\twbar\TweakViewHandler.cpp" />
-    <ClCompile Include="src\proland\util\CylinderViewController.cpp" />
-    <ClCompile Include="src\proland\util\mfs.cpp" />
-    <ClCompile Include="src\proland\util\PlanetViewController.cpp" />
-    <ClCompile Include="src\proland\util\TerrainViewController.cpp" />
+    <ClCompile Include="src\dem\CPUElevationProducer.cpp" />
+    <ClCompile Include="src\dem\ElevationProducer.cpp" />
+    <ClCompile Include="src\dem\NormalProducer.cpp" />
+    <ClCompile Include="src\dem\ResidualProducer.cpp" />
+    <ClCompile Include="src\math\color.cpp" />
+    <ClCompile Include="src\math\noise.cpp" />
+    <ClCompile Include="src\ortho\EmptyOrthoLayer.cpp" />
+    <ClCompile Include="src\ortho\OrthoCPUProducer.cpp" />
+    <ClCompile Include="src\ortho\OrthoGPUProducer.cpp" />
+    <ClCompile Include="src\ortho\OrthoProducer.cpp" />
+    <ClCompile Include="src\ortho\TextureLayer.cpp" />
+    <ClCompile Include="src\particles\LifeCycleParticleLayer.cpp" />
+    <ClCompile Include="src\particles\ParticleLayer.cpp" />
+    <ClCompile Include="src\particles\ParticleProducer.cpp" />
+    <ClCompile Include="src\particles\ParticleStorage.cpp" />
+    <ClCompile Include="src\particles\RandomParticleLayer.cpp" />
+    <ClCompile Include="src\particles\screen\ParticleGrid.cpp" />
+    <ClCompile Include="src\particles\screen\ScreenParticleLayer.cpp" />
+    <ClCompile Include="src\particles\terrain\FlowTile.cpp" />
+    <ClCompile Include="src\particles\terrain\TerrainParticleLayer.cpp" />
+    <ClCompile Include="src\particles\WorldParticleLayer.cpp" />
+    <ClCompile Include="src\preprocess\terrain\AbstractTileCache.cpp" />
+    <ClCompile Include="src\preprocess\terrain\ApertureMipmap.cpp" />
+    <ClCompile Include="src\preprocess\terrain\ColorMipmap.cpp" />
+    <ClCompile Include="src\preprocess\terrain\HeightMipmap.cpp" />
+    <ClCompile Include="src\preprocess\terrain\Preprocess.cpp" />
+    <ClCompile Include="src\preprocess\terrain\Util.cpp" />
+    <ClCompile Include="src\producer\CPUTileStorage.cpp" />
+    <ClCompile Include="src\producer\GPUTileStorage.cpp" />
+    <ClCompile Include="src\producer\ObjectTileStorage.cpp" />
+    <ClCompile Include="src\producer\TileCache.cpp" />
+    <ClCompile Include="src\producer\TileLayer.cpp" />
+    <ClCompile Include="src\producer\TileProducer.cpp" />
+    <ClCompile Include="src\producer\TileStorage.cpp" />
+    <ClCompile Include="src\TerrainPlugin.cpp" />
+    <ClCompile Include="src\terrain\CylindricalDeformation.cpp" />
+    <ClCompile Include="src\terrain\Deformation.cpp" />
+    <ClCompile Include="src\terrain\DrawTerrainTask.cpp" />
+    <ClCompile Include="src\terrain\ReadbackManager.cpp" />
+    <ClCompile Include="src\terrain\SphericalDeformation.cpp" />
+    <ClCompile Include="src\terrain\TerrainNode.cpp" />
+    <ClCompile Include="src\terrain\TerrainQuad.cpp" />
+    <ClCompile Include="src\terrain\TileSampler.cpp" />
+    <ClCompile Include="src\terrain\TileSamplerZ.cpp" />
+    <ClCompile Include="src\terrain\UpdateTerrainTask.cpp" />
+    <ClCompile Include="src\terrain\UpdateTileSamplersTask.cpp" />
+    <ClCompile Include="src\ui\BasicViewHandler.cpp" />
+    <ClCompile Include="src\ui\EventRecorder.cpp" />
+    <ClCompile Include="src\ui\MousePositionHandler.cpp" />
+    <ClCompile Include="src\ui\SceneVisitor.cpp" />
+    <ClCompile Include="src\ui\twbar\DrawTweakBarTask.cpp" />
+    <ClCompile Include="src\ui\twbar\TweakBarHandler.cpp" />
+    <ClCompile Include="src\ui\twbar\TweakBarManager.cpp" />
+    <ClCompile Include="src\ui\twbar\TweakResource.cpp" />
+    <ClCompile Include="src\ui\twbar\TweakSceneGraph.cpp" />
+    <ClCompile Include="src\ui\twbar\TweakViewHandler.cpp" />
+    <ClCompile Include="src\util\CylinderViewController.cpp" />
+    <ClCompile Include="src\util\mfs.cpp" />
+    <ClCompile Include="src\util\PlanetViewController.cpp" />
+    <ClCompile Include="src\util\TerrainViewController.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
