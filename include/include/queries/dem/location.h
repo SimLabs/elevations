@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-#include "producer/height_layer.h"
+#include <queries/producer/height_layer.h>
 
 namespace elevations
 {
 	namespace dem
 	{
-		class location
+		class QUERIES_API location
 		{
 		public:
 			explicit location(double x, double y, producer::height_layer* height_layer);

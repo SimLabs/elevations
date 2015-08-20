@@ -1,4 +1,4 @@
-﻿#include "location.h"
+﻿#include <queries/dem/location.h>
 
 using elevations::dem::location;
 

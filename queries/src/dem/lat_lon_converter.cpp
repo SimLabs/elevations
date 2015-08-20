@@ -1,4 +1,4 @@
-﻿#include "dem/lat_lon_converter.h"
+﻿#include <queries/dem/lat_lon_converter.h>
 
 #include <ork/resource/ResourceTemplate.h>
 

@@ -1,4 +1,4 @@
-#include "taskgraph/cursor_task.h"
+#include <queries/taskgraph/cursor_task.h>
 
 using elevations::taskgraph::cursor_task;
 

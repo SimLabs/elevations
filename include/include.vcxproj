@@ -48,7 +48,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_SHARED_PTR;_CRT_SECURE_NO_WARNINGS;PROLAND_API=;ORK_API=;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_SHARED_PTR;_CRT_SECURE_NO_WARNINGS;QUERIES_API=;PROLAND_API=;ORK_API=;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -62,7 +62,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)\include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>USE_SHARED_PTR;_CRT_SECURE_NO_WARNINGS;PROLAND_API=;ORK_API=;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_SHARED_PTR;_CRT_SECURE_NO_WARNINGS;QUERIES_API=;PROLAND_API=;ORK_API=;TIXML_USE_STL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -290,6 +290,15 @@
     <ClInclude Include="include\proland\util\PlanetViewController.h" />
     <ClInclude Include="include\proland\util\TerrainViewController.h" />
     <ClInclude Include="include\pthread.h" />
+    <ClInclude Include="include\queries\dem\elevation_cursor.h" />
+    <ClInclude Include="include\queries\dem\lat_lon_converter.h" />
+    <ClInclude Include="include\queries\dem\location.h" />
+    <ClInclude Include="include\queries\math\lat_lon.h" />
+    <ClInclude Include="include\queries\producer\height_layer.h" />
+    <ClInclude Include="include\queries\taskgraph\cursor_task.h" />
+    <ClInclude Include="include\queries\taskgraph\get_height_task.h" />
+    <ClInclude Include="include\queries\taskgraph\set_level_task.h" />
+    <ClInclude Include="include\queries\taskgraph\set_location_task.h" />
     <ClInclude Include="include\sched.h" />
     <ClInclude Include="include\stbi\stb_image.h" />
     <ClInclude Include="include\tiff.h" />

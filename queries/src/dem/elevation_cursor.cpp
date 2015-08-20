@@ -1,7 +1,7 @@
-﻿#include "dem/elevation_cursor.h"
+﻿#include <queries/dem/elevation_cursor.h>
 
-#include "taskgraph/set_location_task.h"
-#include "taskgraph/set_level_task.h"
+#include <queries/taskgraph/set_location_task.h>
+#include <queries/taskgraph/set_level_task.h>
 
 using elevations::dem::elevation_cursor;
 

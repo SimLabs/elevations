@@ -2,7 +2,7 @@
 
 #include <proland/dem/CPUElevationProducer.h>
 
-#include "dem/lat_lon_converter.h"
+#include <queries/dem/lat_lon_converter.h>
 
 namespace elevations
 {
@@ -16,10 +16,10 @@ namespace elevations
 
 	namespace dem
 	{
-		class elevation_cursor
+		class QUERIES_API elevation_cursor
 		{
 		public:
-			class cursor_state
+			class QUERIES_API cursor_state
 			{
 			public:
 				explicit cursor_state(ptr<lat_lon_converter> lat_lon_converter);

@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-#include "taskgraph/cursor_task.h"
+#include <queries/taskgraph/cursor_task.h>
 
 namespace elevations
 {
 	namespace taskgraph
 	{
-		class get_height_task : public cursor_task
+		class QUERIES_API get_height_task : public cursor_task
 		{
 		public:
 			get_height_task(bool forced, dem::elevation_cursor::cursor_state& cursor_state, ptr<TaskGraph> task_graph, unsigned deadline = 0);

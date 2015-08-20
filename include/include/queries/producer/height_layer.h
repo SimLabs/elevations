@@ -8,7 +8,7 @@ namespace elevations
 {
 	namespace producer
 	{
-		class height_layer : public proland::TileLayer
+		class QUERIES_API height_layer : public proland::TileLayer
 		{
 		public:
 			explicit height_layer();

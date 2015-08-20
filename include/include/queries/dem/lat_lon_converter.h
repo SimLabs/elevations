@@ -5,15 +5,15 @@
 #include <proland/dem/CPUElevationProducer.h>
 #include <proland/terrain/SphericalDeformation.h>
 
-#include "producer/height_layer.h"
-#include "math/lat_lon.h"
-#include "dem/location.h"
+#include <queries/producer/height_layer.h>
+#include <queries/math/lat_lon.h>
+#include <queries/dem/location.h>
 
 namespace elevations
 {
 	namespace dem
 	{
-		class lat_lon_converter : public Object
+		class QUERIES_API lat_lon_converter: public Object
 		{
 		public:
 			explicit lat_lon_converter(float radius = 1.0f);

@@ -1,6 +1,6 @@
-﻿#include "taskgraph/set_level_task.h"
+﻿#include <queries/taskgraph/set_level_task.h>
 
-#include "taskgraph/get_height_task.h"
+#include <queries/taskgraph/get_height_task.h>
 
 using elevations::taskgraph::set_level_task;
 

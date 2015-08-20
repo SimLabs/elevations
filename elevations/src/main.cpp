@@ -3,7 +3,7 @@
 #include <proland/TerrainPlugin.h>
 
 #include "ui/main_window.h"
-#include "dem/elevation_cursor.h"
+#include <queries/dem/elevation_cursor.h>
 
 using namespace elevations;
 using std::string;
