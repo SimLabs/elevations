@@ -19,6 +19,7 @@ namespace elevations
 			proland::TileCache::Tile* get_tile(unsigned deadline = 0) const;
 			void put_tile() const;
 
+			void run(ptr<TaskGraph> task_graph) const;
 			void schedule(ptr<TaskGraph> task_graph) const;
 
 		private:
@@ -27,6 +28,8 @@ namespace elevations
 			int tx_, ty_;
 
 			proland::CPUElevationProducer* elevation_producer_;
+
+			ptr<Scheduler> get_scheduler() const;
 		};
 
 		namespace details

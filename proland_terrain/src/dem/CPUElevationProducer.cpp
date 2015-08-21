@@ -170,9 +170,9 @@ vec3d CPUElevationProducer::rotate(const vec3d& vector) const
 	return rotationMatrix * vector;
 }
 
-void CPUElevationProducer::schedule(ptr<TaskGraph> taskGraph)
+ptr<Scheduler> CPUElevationProducer::getScheduler()
 {
-	getCache()->getScheduler()->schedule(taskGraph);
+	return getCache()->getScheduler();
 }
 
 ptr<Task> CPUElevationProducer::startCreateTile(int level, int tx, int ty, unsigned int deadline, ptr<Task> task, ptr<TaskGraph> owner)

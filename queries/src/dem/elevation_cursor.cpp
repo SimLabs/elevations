@@ -40,3 +40,9 @@ void elevation_cursor::leave_request(size_t level)
 {
 	new taskgraph::set_level_task(level, cursor_state_, task_graph_);
 }
+
+void elevation_cursor::run()
+{
+	cursor_state_.location_.run(task_graph_);
+	task_graph_ = new TaskGraph();
+}

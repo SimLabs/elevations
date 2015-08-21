@@ -45,9 +45,19 @@ void location::put_tile() const
 	elevation_producer_->putTile(elevation_producer_->findTile(level_, tx_, ty_));
 }
 
+void location::run(ptr<TaskGraph> task_graph) const
+{
+	get_scheduler()->run(task_graph);
+}
+
 void location::schedule(ptr<TaskGraph> task_graph) const
 {
-	elevation_producer_->schedule(task_graph);
+	get_scheduler()->schedule(task_graph);
+}
+
+ptr<Scheduler> location::get_scheduler() const
+{
+	return elevation_producer_->getScheduler();
 }
 
 int elevations::dem::details::physical_to_logical(double value, double quad_size, int level)

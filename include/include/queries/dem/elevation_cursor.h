@@ -46,11 +46,13 @@ namespace elevations
 			double get_current_height() const;
 			void leave_request(size_t level);
 
+			void run();
+
 		private:
 			cursor_state cursor_state_;
 
-			lat_lon_converter* lat_lon_converter_;
-			TaskGraph* task_graph_;
+			ptr<lat_lon_converter> lat_lon_converter_;
+			ptr<TaskGraph> task_graph_;
 		};
 	} // digital elevation model
 } // project namespace

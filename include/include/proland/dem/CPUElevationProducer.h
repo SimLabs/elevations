@@ -90,7 +90,7 @@ public:
 
 	vec3d rotate(const vec3d& vector) const;
 
-	void schedule(ptr<TaskGraph> taskGraph);
+	ptr<Scheduler> getScheduler();
 
 protected:
     /**

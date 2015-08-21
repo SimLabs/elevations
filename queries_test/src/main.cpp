@@ -2,7 +2,6 @@
 #include <ork/core/FileLogger.h>
 #include <proland/TerrainPlugin.h>
 #include <queries/dem/elevation_cursor.h>
-#include <queries/ui/view_manager.h>
 
 using namespace elevations;
 using std::string;
@@ -27,18 +26,12 @@ ptr<ResourceManager> create_resource_manager(const string& path,
 	return new ResourceManager(resource_loader, cache_size);
 }
 
-template <typename T>
-ptr<T> load_resource(ptr<ResourceManager> resource_manager, const string& resource_name)
-{
-	return resource_manager->loadResource(resource_name).cast<T>();
-}
-
 int main(int argc, char *argv[])
 {
 	atexit(Object::exit);
 
 	auto resource_manager = create_resource_manager("Resources", "Resources/terrainDemo.xml");
-	auto lat_lon_converter = load_resource<dem::lat_lon_converter>(resource_manager, "latLonConverter");
+	auto lat_lon_converter = resource_manager->loadResource("latLonConverter").cast<dem::lat_lon_converter>();
 
 	ptr<dem::elevation_cursor> cursor = new dem::elevation_cursor(lat_lon_converter.get());
 	cursor->set_position(math::lat_lon_d(27.988056, 86.925278)); // Everest
@@ -47,6 +40,8 @@ int main(int argc, char *argv[])
 
 	cursor->set_position(math::lat_lon_d(59.95, 30.316667)); // Saint-Petersburg
 	cursor->leave_request(10);
+
+	cursor->run();
 
 	return 0;
 }

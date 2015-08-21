@@ -4,7 +4,7 @@
 
 using elevations::taskgraph::set_location_task;
 
-set_location_task::set_location_task(const elevations::math::lat_lon_d& lat_lon, elevations::dem::lat_lon_converter* lat_lon_converter, elevations::dem::elevation_cursor::cursor_state& cursor_state, ptr<TaskGraph> task_graph, unsigned deadline)
+set_location_task::set_location_task(const elevations::math::lat_lon_d& lat_lon, ptr<elevations::dem::lat_lon_converter> lat_lon_converter, elevations::dem::elevation_cursor::cursor_state& cursor_state, ptr<TaskGraph> task_graph, unsigned deadline)
 	: cursor_task(cursor_state, task_graph, "SetPositionTask", deadline)
 	, lat_lon_(lat_lon)
 	, lat_lon_converter_(lat_lon_converter)
