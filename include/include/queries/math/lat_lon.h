@@ -59,8 +59,17 @@ namespace elevations
 
 			static const T EPSILON;
 
+			template <typename U>
+			friend std::istream& operator>>(std::istream& istream, lat_lon<U>& ll);
+			template <typename U>
+			friend std::ostream& operator<<(std::ostream& ostream, const lat_lon<U>& ll);
+
 		private:
 			T latitude_, longitude_, latitude_radians_, longitude_radians_;
+
+			static const char LEFT_PAREN = '(';
+			static const char COMMA = ',';
+			static const char RIGHT_PAREN = ')';
 
 			lat_lon(T latitude, T longitude, T latitude_radians, T longitude_radians);
 		};
@@ -150,6 +159,35 @@ namespace elevations
 
 		template <typename T>
 		const T lat_lon<T>::DEGREES_TO_RADIANS_COEFFICIENT = M_PI / LONGITUDE_MAX_VALUE;
+
+		template <typename U>
+		std::istream& operator>>(std::istream& istream, lat_lon<U>& ll)
+		{
+			char left_paren, comma, right_paren;
+			U latitude, longtitude;
+			istream >> left_paren >> latitude >> comma >> longtitude >> right_paren;
+
+			assert(left_paren == lat_lon<U>::LEFT_PAREN && comma == lat_lon<U>::COMMA && right_paren == lat_lon<U>::RIGHT_PAREN);
+			ll = math::lat_lon<U>(latitude, longtitude);
+
+			return istream;
+		}
+
+		template <typename U>
+		std::ostream& operator<<(std::ostream& ostream, const lat_lon<U>& ll)
+		{
+			ostream << lat_lon<U>::LEFT_PAREN << ll.latitude_
+				<< lat_lon<U>::COMMA << ' '
+				<< ll.longitude_ << lat_lon<U>::RIGHT_PAREN;
+
+			return ostream;
+		}
+
+		template <typename T>
+		void swap(lat_lon<T>& lhs, lat_lon<T>& rhs)
+		{
+			lhs.swap(rhs);
+		}
 
 		typedef lat_lon<float> lat_lon_f;
 		typedef lat_lon<double> lat_lon_d;
