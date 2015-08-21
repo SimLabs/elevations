@@ -2,6 +2,7 @@
 #include <ork/core/FileLogger.h>
 #include <proland/TerrainPlugin.h>
 #include <queries/dem/elevation_cursor.h>
+#include "counter.h"
 
 using namespace elevations;
 using std::string;
@@ -33,15 +34,55 @@ int main(int argc, char *argv[])
 	auto resource_manager = create_resource_manager("Resources", "Resources/terrainDemo.xml");
 	auto lat_lon_converter = resource_manager->loadResource("latLonConverter").cast<dem::lat_lon_converter>();
 
-	ptr<dem::elevation_cursor> cursor = new dem::elevation_cursor(lat_lon_converter.get());
-	cursor->set_position(math::lat_lon_d(27.988056, 86.925278)); // Everest
-	cursor->leave_request(7);
-	cursor->leave_request(10);
+	size_t n = 100;
+	double lat_min = 20;
+	double lat_max = 30;
+	double lon_min = 80;
+	double lon_max = 90;
+	
+	auto f = [&n](double min, double max, size_t k)
+	{
+		return min + (max - min) / n * k;
+	};
+	auto get_position = [&n, &lat_min, &lat_max, &lon_min, &lon_max, &f](size_t i, size_t j)
+	{
+		return math::lat_lon_d(f(lat_min, lat_max, i), f(lon_min, lon_max, j));
+	};
+	auto print = [](const math::lat_lon_d& lat_lon, ptr<dem::elevation_cursor> elevation_cursor)
+	{
+		std::cout << "position: " << lat_lon << ", " << elevation_cursor->get_current_height() << ", level: " << elevation_cursor->get_current_level() << std::endl;
+	};
+	
+	counter counter;
+	counter.start();
+	for (size_t i = 0; i < n; ++i)
+	{
+		for (size_t j = 0; j < n; ++j)
+		{
+			ptr<dem::elevation_cursor> cursor = new dem::elevation_cursor(lat_lon_converter.get());
+			auto position = get_position(i, j);
+			cursor->set_position(position);
+			cursor->leave_request(10);
+			print(position, cursor);
+		}
+	}
+	std::cout << counter.stop() << std::endl;
+	std::cin.get();
 
-	cursor->set_position(math::lat_lon_d(59.95, 30.316667)); // Saint-Petersburg
-	cursor->leave_request(10);
-
-	cursor->run();
+	counter.start();
+	ptr<dem::elevation_cursor> cursor = new dem::elevation_cursor(lat_lon_converter);
+	for (size_t i = 0; i < n; ++i)
+	{
+		for (size_t j = 0; j < n; ++j)
+		{
+			auto position = get_position(i, j);
+			cursor->set_position(position);
+			cursor->leave_request(10);
+			print(position, cursor);
+		}
+	}
+	std::cout << counter.stop() << std::endl;
+	std::cin.get();
 
 	return 0;
 }

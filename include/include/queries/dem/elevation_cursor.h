@@ -39,20 +39,21 @@ namespace elevations
 				friend class taskgraph::get_height_task;
 			};
 
-			explicit elevation_cursor(lat_lon_converter* lat_lon_converter_);
+			explicit elevation_cursor(ptr<lat_lon_converter> lat_lon_converter_);
 			virtual ~elevation_cursor();
 
 			void set_position(const math::lat_lon_d& lat_lon);
 			double get_current_height() const;
+			size_t get_current_level() const;
 			void leave_request(size_t level);
-
-			void run();
 
 		private:
 			cursor_state cursor_state_;
 
 			ptr<lat_lon_converter> lat_lon_converter_;
 			ptr<TaskGraph> task_graph_;
+
+			void run();
 		};
 	} // digital elevation model
 } // project namespace

@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
 	widget->init(view_manager.get());
 
-	ptr<dem::elevation_cursor> cursor = new dem::elevation_cursor(lat_lon_converter.get());
+	ptr<dem::elevation_cursor> cursor = new dem::elevation_cursor(lat_lon_converter);
 	cursor->set_position(math::lat_lon_d(27.988056, 86.925278)); // Everest
 	cursor->leave_request(7);
 	cursor->leave_request(10);
